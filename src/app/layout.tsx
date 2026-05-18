@@ -4,18 +4,21 @@ import "./globals.css";
 import { ProductionAnalytics } from "@/components/analytics/production-analytics";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vantauu.ai";
+const siteTitle = "VANTAUU — AI On-chain Intelligence";
+const siteDescription =
+  "AI-powered on-chain intelligence for tracking smart money, capital flow, narratives, and market signals in real time.";
+const previewImageAlt = "VANTAUU AI on-chain intelligence terminal";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  applicationName: "Vantauu",
+  applicationName: "VANTAUU",
   title: {
-    default: "Vantauu | AI On-chain Intelligence",
-    template: "%s | Vantauu",
+    default: siteTitle,
+    template: "%s | VANTAUU",
   },
-  description:
-    "AI-powered on-chain intelligence for tracking smart money, capital flow, narratives, and market signals in real time.",
+  description: siteDescription,
   keywords: [
-    "Vantauu",
+    "VANTAUU",
     "AI on-chain intelligence",
     "Web3 intelligence",
     "on-chain analytics",
@@ -25,25 +28,24 @@ export const metadata: Metadata = {
     "crypto narratives",
     "crypto AI",
   ],
-  authors: [{ name: "Vantauu" }],
-  creator: "Vantauu",
-  publisher: "Vantauu",
+  authors: [{ name: "VANTAUU" }],
+  creator: "VANTAUU",
+  publisher: "VANTAUU",
   category: "Finance Technology",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Vantauu | AI On-chain Intelligence",
-    description:
-      "Detect capital intent before markets move with AI-powered crypto intelligence.",
+    title: siteTitle,
+    description: "Detect capital intent before markets move with AI-powered crypto intelligence.",
     url: siteUrl,
-    siteName: "Vantauu",
+    siteName: "VANTAUU",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Vantauu AI on-chain intelligence terminal",
+        alt: previewImageAlt,
       },
     ],
     locale: "en_US",
@@ -51,10 +53,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vantauu | AI On-chain Intelligence",
-    description:
-      "Detect capital intent before markets move with AI-powered crypto intelligence.",
-    images: ["/twitter-image"],
+    title: siteTitle,
+    description: "Detect capital intent before markets move with AI-powered crypto intelligence.",
+    images: [
+      {
+        url: "/twitter-image",
+        alt: previewImageAlt,
+      },
+    ],
   },
   robots: {
     index: true,
@@ -70,14 +76,36 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
     ],
-    apple: [{ url: "/apple-icon", sizes: "180x180" }],
+    shortcut: [{ url: "/favicon.ico" }],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        type: "image/png",
+        sizes: "180x180",
+      },
+    ],
+    other: [
+      {
+        rel: "icon",
+        url: "/android-chrome-192x192.png",
+        type: "image/png",
+        sizes: "192x192",
+      },
+      {
+        rel: "icon",
+        url: "/android-chrome-512x512.png",
+        type: "image/png",
+        sizes: "512x512",
+      },
+    ],
   },
   appleWebApp: {
     capable: true,
-    title: "Vantauu",
+    title: "VANTAUU",
     statusBarStyle: "black-translucent",
   },
   formatDetection: {

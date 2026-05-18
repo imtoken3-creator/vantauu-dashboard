@@ -2,26 +2,52 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Vantauu | AI On-chain Intelligence",
-    short_name: "Vantauu",
+    name: "VANTAUU — AI On-chain Intelligence",
+    short_name: "VANTAUU",
     description:
       "AI-powered on-chain intelligence for smart money, capital flow, narratives, and market signals.",
     start_url: "/",
+    scope: "/",
     display: "standalone",
+    orientation: "portrait-primary",
     background_color: "#080b18",
     theme_color: "#080b18",
     icons: [
       {
-        src: "/icon",
+        src: "/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        src: "/favicon-32x32.png",
         sizes: "32x32",
         type: "image/png",
       },
       {
-        src: "/apple-icon",
-        sizes: "180x180",
+        src: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/android-chrome-512x512.png",
+        sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
       },
     ],
+    categories: ["finance", "business", "productivity"],
   };
 }
