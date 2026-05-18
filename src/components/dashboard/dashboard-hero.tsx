@@ -43,7 +43,7 @@ export function DashboardHero() {
         aria-hidden
         animate={{ opacity: [0.45, 0.72, 0.45] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 left-1/4 h-40 w-3/4 bg-gradient-to-r from-transparent via-cyan-400/10 to-violet-500/10 blur-2xl"
+        className="absolute bottom-0 left-1/4 h-40 w-3/4 bg-gradient-to-r from-transparent via-cyan-400/8 to-violet-500/8 blur-xl"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.04),transparent_18%,transparent_82%,rgba(255,255,255,0.035))]" />
 
@@ -71,7 +71,7 @@ export function DashboardHero() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/smart-money"
-                className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(168,85,247,0.9))] px-5 text-sm font-medium text-white shadow-2xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
+                className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(168,85,247,0.9))] px-5 text-sm font-medium text-white shadow-xl shadow-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/30"
               >
                 <Zap className="size-4" />
                 Analyze Smart Money
@@ -110,7 +110,7 @@ export function DashboardHero() {
           transition={{ delay: 0.12, duration: 0.65, ease: "easeOut" }}
           className="hidden gap-4 lg:grid lg:grid-cols-[1fr_0.86fr] xl:grid-cols-1 2xl:grid-cols-[1fr_0.86fr]"
         >
-          <div className="glow-border relative min-h-80 overflow-hidden rounded-lg border border-white/10 bg-black/25 p-4 shadow-2xl shadow-primary/10">
+          <div className="glow-border relative min-h-80 overflow-hidden rounded-lg border border-white/10 bg-black/25 p-4 shadow-xl shadow-primary/10">
             <div className="scan-line" />
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export function DashboardHero() {
               <div className="absolute inset-0 animated-grid bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:32px_32px]" />
               <div className="absolute inset-6 rounded-full border border-primary/20" />
               <div className="absolute inset-14 rounded-full border border-cyan-300/15" />
-              <div className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-primary/40 bg-primary/20 p-4 text-primary shadow-2xl shadow-primary/30">
+              <div className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-primary/40 bg-primary/20 p-4 text-primary shadow-xl shadow-primary/20">
                 <BrainCircuit className="size-8" />
               </div>
               <div className="absolute left-[18%] right-[18%] top-1/2 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />

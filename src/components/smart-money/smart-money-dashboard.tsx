@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -38,7 +38,13 @@ import {
 } from "@/data/smart-money";
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { isEmpty } from "@/lib/collection";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartPieAnimationProps,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 import {
   formatNumber,
   shortAddress,
@@ -202,7 +208,7 @@ export function SmartMoneyDashboard() {
                 "Wallet address",
                 isLiveLoading ? "Loading" : shortAddress(liveData.wallet.address),
               ],
-              ["Signal freshness", isLiveLoading ? "Syncing" : "60s"],
+              ["Signal freshness", isLiveLoading ? "Syncing" : "30s"],
               [
                 "Transfers",
                 isLiveLoading
@@ -268,8 +274,8 @@ export function SmartMoneyDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.42fr_0.78fr]"
       >
-        <NetInflowChart isReady={isChartReady} />
-        <AllocationDonutChart isReady={isChartReady} />
+        <MemoizedNetInflowChart isReady={isChartReady} />
+        <MemoizedAllocationDonutChart isReady={isChartReady} />
       </motion.section>
 
       <motion.section
@@ -343,6 +349,7 @@ function NetInflowChart({ isReady }: { isReady: boolean }) {
               />
               <Tooltip contentStyle={chartTooltipStyle} />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="inflow"
                 stroke="#7c8cff"
@@ -351,6 +358,7 @@ function NetInflowChart({ isReady }: { isReady: boolean }) {
                 fill="url(#smartInflow)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="net"
                 stroke="#34d399"
@@ -359,6 +367,7 @@ function NetInflowChart({ isReady }: { isReady: boolean }) {
                 fill="url(#smartNet)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="outflow"
                 stroke="#f87171"
@@ -399,6 +408,7 @@ function AllocationDonutChart({ isReady }: { isReady: boolean }) {
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart>
               <Pie
+                {...chartPieAnimationProps}
                 data={allocationDonut}
                 dataKey="value"
                 innerRadius={72}
@@ -438,6 +448,9 @@ function AllocationDonutChart({ isReady }: { isReady: boolean }) {
   );
 }
 
+const MemoizedNetInflowChart = memo(NetInflowChart);
+const MemoizedAllocationDonutChart = memo(AllocationDonutChart);
+
 function WalletLeaderboard() {
   return (
     <section className="section-surface">
@@ -471,6 +484,7 @@ function WalletLeaderboard() {
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-medium text-white">{wallet.entity}</p>
                 <button
+                  type="button"
                   aria-label={`Copy ${wallet.wallet}`}
                   className="rounded-md border border-white/10 p-1 text-muted-foreground transition hover:border-primary/30 hover:text-primary"
                 >

@@ -56,7 +56,7 @@ export function StatCard({
       className="metric-card group"
     >
       <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${styles.line}`} />
-      <div className="absolute -right-12 top-0 h-24 w-40 rotate-12 bg-white/5 blur-2xl transition duration-500 group-hover:bg-primary/15" />
+      <div className="absolute -right-12 top-0 h-24 w-40 rotate-12 bg-white/5 blur-xl transition duration-500 group-hover:bg-primary/12" />
       <div className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
       <div className="flex items-start justify-between gap-4">

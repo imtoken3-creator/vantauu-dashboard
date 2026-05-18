@@ -10,7 +10,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="relative flex min-h-screen flex-col lg:pl-72">
         <TopNavbar />
-        <main className="mx-auto w-full max-w-[1680px] flex-1 px-4 pb-28 pt-5 sm:px-6 sm:pt-6 lg:px-8 xl:pt-8">
+        <main
+          id="main-content"
+          className="mx-auto w-full max-w-[1680px] flex-1 px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:px-8 lg:pb-10 xl:pt-8"
+        >
           {children}
         </main>
       </div>

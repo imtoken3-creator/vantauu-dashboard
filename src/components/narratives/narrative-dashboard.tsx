@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -41,7 +41,13 @@ import {
 } from "@/data/narratives";
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { isEmpty } from "@/lib/collection";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartPieAnimationProps,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 import {
   formatPercent,
   formatUsd,
@@ -178,7 +184,7 @@ export function NarrativeDashboard() {
                 "Market cap",
                 isLiveLoading ? "Loading" : formatUsd(liveData.market.totalMarketCapUsd),
               ],
-              ["Signal latency", isLiveLoading ? "Syncing" : "60s"],
+              ["Signal latency", isLiveLoading ? "Syncing" : "30s"],
               [
                 "Trending assets",
                 isLiveLoading ? "Loading" : String(liveData.market.trending.length),
@@ -243,7 +249,7 @@ export function NarrativeDashboard() {
         className="grid gap-6 xl:grid-cols-[1.25fr_0.85fr]"
       >
         <TopNarrativesTable narratives={liveTopNarratives} />
-        <NarrativeMindshareDonut isReady={isChartReady} />
+        <MemoizedNarrativeMindshareDonut isReady={isChartReady} />
       </motion.section>
 
       <motion.section
@@ -252,7 +258,7 @@ export function NarrativeDashboard() {
         className="grid gap-6 xl:grid-cols-[1fr_1fr]"
       >
         <NarrativeHeatmap />
-        <TrendMomentumPanel isReady={isChartReady} />
+        <MemoizedTrendMomentumPanel isReady={isChartReady} />
       </motion.section>
 
       <motion.section
@@ -359,6 +365,7 @@ function NarrativeMindshareDonut({ isReady }: { isReady: boolean }) {
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart>
               <Pie
+                {...chartPieAnimationProps}
                 data={narrativeMindshare}
                 dataKey="value"
                 innerRadius={72}
@@ -509,6 +516,7 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
               />
               <Tooltip contentStyle={chartTooltipStyle} />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="ai"
                 stroke="#7c8cff"
@@ -517,6 +525,7 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
                 fill="url(#aiMomentum)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="rwa"
                 stroke="#38bdf8"
@@ -525,6 +534,7 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
                 fill="url(#rwaMomentum)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="defi"
                 stroke="#a855f7"
@@ -533,6 +543,7 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
                 fill="transparent"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="meme"
                 stroke="#f59e0b"
@@ -541,6 +552,7 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
                 fill="transparent"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="layer2"
                 stroke="#34d399"
@@ -557,6 +569,9 @@ function TrendMomentumPanel({ isReady }: { isReady: boolean }) {
     </section>
   );
 }
+
+const MemoizedNarrativeMindshareDonut = memo(NarrativeMindshareDonut);
+const MemoizedTrendMomentumPanel = memo(TrendMomentumPanel);
 
 function SocialSentimentFeed() {
   return (

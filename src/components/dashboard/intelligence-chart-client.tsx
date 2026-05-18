@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -12,9 +12,14 @@ import {
 } from "recharts";
 
 import { intelligenceSeries } from "@/data/mock";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 
-export function IntelligenceChartClient() {
+function IntelligenceChartClientComponent() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -56,6 +61,7 @@ export function IntelligenceChartClient() {
         />
         <Tooltip contentStyle={chartTooltipStyle} />
         <Area
+          {...chartAnimationProps}
           type="monotone"
           dataKey="smartMoney"
           stroke="#7c8cff"
@@ -64,6 +70,7 @@ export function IntelligenceChartClient() {
           fill="url(#smartMoney)"
         />
         <Area
+          {...chartAnimationProps}
           type="monotone"
           dataKey="liquidity"
           stroke="#a855f7"
@@ -72,6 +79,7 @@ export function IntelligenceChartClient() {
           fill="url(#liquidity)"
         />
         <Area
+          {...chartAnimationProps}
           type="monotone"
           dataKey="sentiment"
           stroke="#38bdf8"
@@ -83,3 +91,5 @@ export function IntelligenceChartClient() {
     </ResponsiveContainer>
   );
 }
+
+export const IntelligenceChartClient = memo(IntelligenceChartClientComponent);

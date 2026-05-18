@@ -121,7 +121,7 @@ export function AboutPage() {
   return (
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
       <AboutNav onRequestAccess={() => setWaitlistOpen(true)} />
-      <main>
+      <main id="main-content">
         <HeroSection onRequestAccess={() => setWaitlistOpen(true)} />
         <BeliefSection />
         <FounderLetter />
@@ -141,7 +141,7 @@ export function AboutPage() {
 
 function AboutNav({ onRequestAccess }: { onRequestAccess: () => void }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
@@ -229,7 +229,7 @@ function HeroSection({ onRequestAccess }: { onRequestAccess: () => void }) {
             <button
               type="button"
               onClick={onRequestAccess}
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-2xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-xl shadow-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/30"
             >
               <BriefcaseBusiness className="size-4" />
               Join the mission

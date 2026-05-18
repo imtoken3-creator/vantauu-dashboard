@@ -23,6 +23,7 @@ import {
 
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
+import { LazyRender } from "@/components/ui/lazy-render";
 import {
   formatNumber,
   formatPercent,
@@ -255,7 +256,7 @@ export function LandingPage() {
   return (
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
       <LandingNav onRequestAccess={() => openWaitlist("nav")} />
-      <main>
+      <main id="main-content">
         <HeroSection
           liveData={liveData}
           isLiveLoading={isLiveLoading}
@@ -263,16 +264,28 @@ export function LandingPage() {
           onRequestAccess={() => openWaitlist("hero")}
         />
         <EcosystemSection />
-        <FeaturesSection />
-        <DashboardPreviewSection
-          liveData={liveData}
-          isLiveLoading={isLiveLoading}
-          liveError={liveError}
-        />
-        <WhySection />
-        <PricingSection onRequestAccess={() => openWaitlist("pricing")} />
-        <FaqSection />
-        <CareersSection onRequestAccess={() => openWaitlist("careers")} />
+        <LazyRender id="features" minHeight={840}>
+          <FeaturesSection />
+        </LazyRender>
+        <LazyRender id="preview" minHeight={960}>
+          <DashboardPreviewSection
+            liveData={liveData}
+            isLiveLoading={isLiveLoading}
+            liveError={liveError}
+          />
+        </LazyRender>
+        <LazyRender minHeight={420}>
+          <WhySection />
+        </LazyRender>
+        <LazyRender id="pricing" minHeight={900}>
+          <PricingSection onRequestAccess={() => openWaitlist("pricing")} />
+        </LazyRender>
+        <LazyRender id="faq" minHeight={560}>
+          <FaqSection />
+        </LazyRender>
+        <LazyRender id="careers" minHeight={780}>
+          <CareersSection onRequestAccess={() => openWaitlist("careers")} />
+        </LazyRender>
       </main>
       <Footer />
       <WaitlistModal
@@ -438,7 +451,7 @@ function liveHeatmapThemes(data: LiveIntelligenceData) {
 
 function LandingNav({ onRequestAccess }: { onRequestAccess: () => void }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
@@ -543,7 +556,7 @@ function HeroSection({
           >
             <Link
               href="/dashboard"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-2xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-xl shadow-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/30"
             >
               <Zap className="size-4" />
               Launch Dashboard
@@ -593,7 +606,7 @@ function HeroIntelligenceScene({
       transition={{ delay: 0.28, duration: 0.8, ease: "easeOut" }}
       className="pointer-events-none relative z-0 mx-auto mt-4 w-full max-w-[620px] sm:mt-8 lg:mx-0 lg:mt-0 lg:max-w-[700px] lg:translate-x-8 lg:translate-y-16 xl:translate-x-12 xl:translate-y-24"
     >
-      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-black/35 p-3 shadow-2xl shadow-primary/20 backdrop-blur-2xl sm:p-4">
+      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-black/35 p-3 shadow-xl shadow-primary/15 backdrop-blur-xl sm:p-4">
         <div className="absolute inset-0 cyber-grid animated-grid opacity-25" />
         <div className="cinematic-gradient absolute inset-0 opacity-35" />
         <div className="scan-line" />
@@ -715,7 +728,7 @@ function EcosystemSection() {
 
 function FeaturesSection() {
   return (
-    <MotionSection id="features">
+    <MotionSection>
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="AI Intelligence Features"
@@ -837,7 +850,7 @@ function ClusterVisual() {
   return (
     <div className="relative h-full overflow-hidden rounded-lg border border-white/10 bg-[radial-gradient(circle_at_center,rgba(124,140,255,0.18),transparent_58%)]">
       <div className="absolute inset-0 animated-grid bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:32px_32px]" />
-      <div className="absolute left-1/2 top-1/2 size-14 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-primary/40 bg-primary/20 p-3 text-primary shadow-2xl shadow-primary/25 transition duration-300 group-hover:scale-105">
+      <div className="absolute left-1/2 top-1/2 size-14 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-primary/40 bg-primary/20 p-3 text-primary shadow-xl shadow-primary/20 transition duration-300 group-hover:scale-105">
         <BrainCircuit className="size-8" />
       </div>
       <div className="absolute left-[16%] right-[16%] top-1/2 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
@@ -920,7 +933,7 @@ function DashboardPreviewSection({
   liveError: string | null;
 }) {
   return (
-    <MotionSection id="preview" className="relative overflow-hidden">
+    <MotionSection className="relative overflow-hidden">
       <div className="absolute inset-0 cyber-grid opacity-20" />
       <div className="mx-auto max-w-[1500px] px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeader
@@ -958,7 +971,7 @@ function DashboardMockup({
   const metrics = livePreviewMetrics(liveData, isLiveLoading);
 
   return (
-    <div className="glow-border relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.045] p-3 shadow-2xl shadow-black/40 backdrop-blur-2xl sm:p-4">
+    <div className="glow-border relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.045] p-3 shadow-xl shadow-black/30 backdrop-blur-xl sm:p-4">
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(56,189,248,0.08),transparent_38%),linear-gradient(245deg,rgba(124,140,255,0.08),transparent_42%)]" />
       <div className="cinematic-gradient absolute inset-0 opacity-25" />
       <div className="relative overflow-hidden rounded-lg border border-white/10 bg-background/[0.92]">
@@ -1171,14 +1184,9 @@ function AISignalFeedPreview({
         {signals.map(([title, severity, source, score], index) => (
           <motion.div
             key={title}
-            animate={{ opacity: [0.88, 1, 0.88] }}
-            transition={{
-              delay: index * 0.25,
-              duration: 3.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="interactive-row"
+            whileHover={{ x: 2 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className={`interactive-row ${index === 0 ? "live-shimmer" : ""}`}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -1315,7 +1323,7 @@ function FloatingSignalPanel({
       aria-hidden
       animate={{ y: [0, -8, 0] }}
       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      className="pointer-events-none absolute -right-3 top-12 hidden w-72 rounded-lg border border-cyan-300/20 bg-background/80 p-4 shadow-2xl shadow-cyan-300/10 backdrop-blur-2xl xl:block"
+      className="pointer-events-none absolute -right-3 top-12 hidden w-72 rounded-lg border border-cyan-300/20 bg-background/80 p-4 shadow-xl shadow-cyan-300/10 backdrop-blur-xl xl:block"
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs uppercase tracking-[0.18em] text-cyan-100">
@@ -1344,7 +1352,7 @@ function FloatingWalletPanel({ liveData }: { liveData: LiveIntelligenceData }) {
       aria-hidden
       animate={{ y: [0, 10, 0] }}
       transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      className="pointer-events-none absolute -left-4 bottom-20 hidden w-80 rounded-lg border border-primary/20 bg-background/80 p-4 shadow-2xl shadow-primary/10 backdrop-blur-2xl xl:block"
+      className="pointer-events-none absolute -left-4 bottom-20 hidden w-80 rounded-lg border border-primary/20 bg-background/80 p-4 shadow-xl shadow-primary/10 backdrop-blur-xl xl:block"
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs uppercase tracking-[0.18em] text-primary">
@@ -1405,7 +1413,7 @@ function WhySection() {
 
 function PricingSection({ onRequestAccess }: { onRequestAccess: () => void }) {
   return (
-    <MotionSection id="pricing" className="border-y border-white/10 bg-white/[0.025]">
+    <MotionSection className="border-y border-white/10 bg-white/[0.025]">
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Pricing"
@@ -1418,14 +1426,14 @@ function PricingSection({ onRequestAccess }: { onRequestAccess: () => void }) {
             <motion.article
               key={plan.name}
               variants={fadeUp}
-              className={`group relative overflow-hidden rounded-lg border p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl transition duration-300 hover:-translate-y-1 ${
+              className={`group relative overflow-hidden rounded-lg border p-6 shadow-xl shadow-black/25 backdrop-blur-xl transition duration-300 hover:-translate-y-1 ${
                 plan.featured
                   ? "border-primary/45 bg-[linear-gradient(145deg,rgba(124,140,255,0.17),rgba(255,255,255,0.045))] shadow-primary/15"
                   : "border-white/10 bg-white/[0.045] hover:border-primary/25 hover:shadow-primary/10"
               }`}
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
-              <div className="absolute -right-16 top-0 h-32 w-48 rotate-12 bg-primary/10 blur-3xl transition duration-500 group-hover:bg-cyan-300/12" />
+              <div className="absolute -right-16 top-0 h-32 w-48 rotate-12 bg-primary/8 blur-2xl transition duration-500 group-hover:bg-cyan-300/10" />
               {plan.featured && (
                 <div className="absolute right-4 top-4 rounded-md border border-cyan-300/25 bg-cyan-300/10 px-2 py-1 text-xs font-medium text-cyan-100">
                   Recommended
@@ -1561,7 +1569,7 @@ function ComparisonCell({
 
 function FaqSection() {
   return (
-    <MotionSection id="faq">
+    <MotionSection>
       <div className="mx-auto max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="FAQ"
@@ -1587,7 +1595,7 @@ function FaqSection() {
 
 function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
   return (
-    <MotionSection id="careers">
+    <MotionSection>
       <div className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
         <div className="hero-surface">
           <div className="absolute inset-0 cyber-grid animated-grid opacity-30" />

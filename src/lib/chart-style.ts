@@ -12,3 +12,13 @@ export const chartTickStyle = {
 };
 
 export const chartGridStroke = "rgba(255,255,255,0.075)";
+
+export const chartAnimationProps = {
+  animationDuration: 320,
+  animationEasing: "ease-out",
+} as const;
+
+export const chartPieAnimationProps = {
+  animationDuration: 260,
+  animationEasing: "ease-out",
+} as const;

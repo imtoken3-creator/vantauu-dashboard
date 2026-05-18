@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -40,7 +40,13 @@ import {
 } from "@/data/capital-flow";
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { isEmpty } from "@/lib/collection";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartPieAnimationProps,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 import {
   formatNumber,
   formatPercent,
@@ -217,7 +223,7 @@ export function CapitalFlowDashboard() {
                 "Stablecoin supply",
                 isLiveLoading ? "Loading" : formatUsd(liveData.defi.stablecoinTotalUsd),
               ],
-              ["Flow freshness", isLiveLoading ? "Syncing" : "60s"],
+              ["Flow freshness", isLiveLoading ? "Syncing" : "30s"],
               [
                 "Tracked chains",
                 isLiveLoading ? "Loading" : formatNumber(liveData.defi.chains.length),
@@ -281,8 +287,8 @@ export function CapitalFlowDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.45fr_0.75fr]"
       >
-        <CapitalFlowChart isReady={isChartReady} isLiveLoading={isLiveLoading} />
-        <StablecoinDonut
+        <MemoizedCapitalFlowChart isReady={isChartReady} isLiveLoading={isLiveLoading} />
+        <MemoizedStablecoinDonut
           isReady={isChartReady}
           allocation={liveStablecoinAllocation}
         />
@@ -342,15 +348,6 @@ function CapitalFlowChart({
               data={chainFlowSeries}
               margin={{ top: 12, right: 14, left: -12, bottom: 0 }}
             >
-              <defs>
-                <filter id="flowGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
               <CartesianGrid stroke={chartGridStroke} vertical={false} />
               <XAxis
                 dataKey="time"
@@ -364,11 +361,11 @@ function CapitalFlowChart({
                 tick={chartTickStyle}
               />
               <Tooltip contentStyle={chartTooltipStyle} />
-              <Line type="monotone" dataKey="base" stroke="#7c8cff" strokeWidth={3} strokeLinecap="round" dot={false} filter="url(#flowGlow)" />
-              <Line type="monotone" dataKey="ethereum" stroke="#38bdf8" strokeWidth={2.5} strokeLinecap="round" dot={false} />
-              <Line type="monotone" dataKey="solana" stroke="#34d399" strokeWidth={2.5} strokeLinecap="round" dot={false} />
-              <Line type="monotone" dataKey="arbitrum" stroke="#a855f7" strokeWidth={2.5} strokeLinecap="round" dot={false} />
-              <Line type="monotone" dataKey="optimism" stroke="#f59e0b" strokeWidth={2.5} strokeLinecap="round" dot={false} />
+              <Line {...chartAnimationProps} type="monotone" dataKey="base" stroke="#7c8cff" strokeWidth={3} strokeLinecap="round" dot={false} />
+              <Line {...chartAnimationProps} type="monotone" dataKey="ethereum" stroke="#38bdf8" strokeWidth={2.5} strokeLinecap="round" dot={false} />
+              <Line {...chartAnimationProps} type="monotone" dataKey="solana" stroke="#34d399" strokeWidth={2.5} strokeLinecap="round" dot={false} />
+              <Line {...chartAnimationProps} type="monotone" dataKey="arbitrum" stroke="#a855f7" strokeWidth={2.5} strokeLinecap="round" dot={false} />
+              <Line {...chartAnimationProps} type="monotone" dataKey="optimism" stroke="#f59e0b" strokeWidth={2.5} strokeLinecap="round" dot={false} />
             </LineChart>
           </ResponsiveContainer>
         ) : (
@@ -426,6 +423,7 @@ function StablecoinDonut({
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart>
               <Pie
+                {...chartPieAnimationProps}
                 data={allocation}
                 dataKey="value"
                 innerRadius={72}
@@ -461,6 +459,9 @@ function StablecoinDonut({
     </section>
   );
 }
+
+const MemoizedCapitalFlowChart = memo(CapitalFlowChart);
+const MemoizedStablecoinDonut = memo(StablecoinDonut);
 
 function EcosystemRankingTable({
   ranking,

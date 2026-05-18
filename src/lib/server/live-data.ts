@@ -32,7 +32,7 @@ async function fetchJson<T>(
     const response = await fetch(url, {
       ...init,
       signal: controller.signal,
-      next: { revalidate: 60 },
+      next: { revalidate: 30 },
     });
 
     if (!response.ok) {

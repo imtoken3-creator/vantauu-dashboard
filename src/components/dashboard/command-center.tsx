@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -38,7 +38,12 @@ import {
   type AISignal,
   type IntelligenceCard,
 } from "@/lib/ai-intelligence-layer";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 import {
   formatNumber,
   formatPercent,
@@ -399,7 +404,7 @@ export function CommandCenter() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.35fr_0.85fr]"
       >
-        <MarketPulseChart
+        <MemoizedMarketPulseChart
           isReady={isChartReady}
           data={pulseSeries}
           explanation={aiLayer.explanations.marketPulse}
@@ -431,7 +436,7 @@ export function CommandCenter() {
           narratives={narratives}
           explanation={aiLayer.explanations.narratives}
         />
-        <WalletIntelligence
+        <MemoizedWalletIntelligence
           leaderboard={leaderboard}
           clusters={clusters}
           isReady={isChartReady}
@@ -568,7 +573,7 @@ function MarketSentimentSystem({
 
       <div className="relative grid gap-5 sm:grid-cols-[150px_1fr] sm:items-center">
         <div
-          className="grid aspect-square place-items-center rounded-full border border-white/10 shadow-2xl shadow-primary/10"
+          className="grid aspect-square place-items-center rounded-full border border-white/10 shadow-xl shadow-primary/10"
           style={{
             background: `conic-gradient(from 180deg, rgba(124,140,255,0.95) ${sentiment.score * 3.6}deg, rgba(255,255,255,0.08) 0deg)`,
           }}
@@ -712,9 +717,9 @@ function MarketPulseChart({
               <XAxis dataKey="time" axisLine={false} tickLine={false} tick={chartTickStyle} />
               <YAxis axisLine={false} tickLine={false} tick={chartTickStyle} />
               <Tooltip contentStyle={chartTooltipStyle} />
-              <Area type="monotone" dataKey="btc" stroke="#7c8cff" strokeWidth={3} fill="url(#btcCommand)" />
-              <Area type="monotone" dataKey="eth" stroke="#38bdf8" strokeWidth={2.4} fill="transparent" />
-              <Area type="monotone" dataKey="liquidity" stroke="#34d399" strokeWidth={2.4} fill="url(#liqCommand)" />
+              <Area {...chartAnimationProps} type="monotone" dataKey="btc" stroke="#7c8cff" strokeWidth={3} fill="url(#btcCommand)" />
+              <Area {...chartAnimationProps} type="monotone" dataKey="eth" stroke="#38bdf8" strokeWidth={2.4} fill="transparent" />
+              <Area {...chartAnimationProps} type="monotone" dataKey="liquidity" stroke="#34d399" strokeWidth={2.4} fill="url(#liqCommand)" />
             </AreaChart>
           </ResponsiveContainer>
         ) : (
@@ -828,14 +833,9 @@ function AISignalEngine({
         {signals.map((signal, index) => (
           <motion.article
             key={signal.type}
-            animate={{ opacity: [0.9, 1, 0.9] }}
-            transition={{
-              delay: index * 0.2,
-              duration: 3.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="interactive-row-cyan group"
+            whileHover={{ x: 2 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className={`interactive-row-cyan group ${index === 0 ? "live-shimmer" : ""}`}
           >
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -1079,7 +1079,7 @@ function WalletIntelligence({
                     width={128}
                   />
                   <Tooltip contentStyle={chartTooltipStyle} />
-                  <Bar dataKey="score" radius={[0, 6, 6, 0]}>
+                  <Bar {...chartAnimationProps} dataKey="score" radius={[0, 6, 6, 0]}>
                     {clusterBars.map((item, index) => (
                       <Cell key={item.name} fill={["#7c8cff", "#38bdf8", "#34d399"][index] ?? "#7c8cff"} />
                     ))}
@@ -1104,6 +1104,9 @@ function WalletIntelligence({
     </section>
   );
 }
+
+const MemoizedMarketPulseChart = memo(MarketPulseChart);
+const MemoizedWalletIntelligence = memo(WalletIntelligence);
 
 function WhatThisMeans({ children }: { children: string }) {
   return (

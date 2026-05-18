@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -38,7 +38,13 @@ import {
   topAlertTypes,
 } from "@/data/alerts";
 import { isEmpty } from "@/lib/collection";
-import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  chartAnimationProps,
+  chartGridStroke,
+  chartPieAnimationProps,
+  chartTickStyle,
+  chartTooltipStyle,
+} from "@/lib/chart-style";
 import { cn } from "@/lib/utils";
 
 const kpiIcons = [Bell, Siren, ShieldAlert, AlertTriangle, CircleAlert];
@@ -162,8 +168,8 @@ export function AlertsDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.35fr_0.8fr]"
       >
-        <AlertsOverTimeChart isReady={isChartReady} />
-        <SeverityDonut isReady={isChartReady} />
+        <MemoizedAlertsOverTimeChart isReady={isChartReady} />
+        <MemoizedSeverityDonut isReady={isChartReady} />
       </motion.section>
 
       <motion.section
@@ -236,6 +242,7 @@ function AlertsOverTimeChart({ isReady }: { isReady: boolean }) {
               />
               <Tooltip contentStyle={chartTooltipStyle} />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="critical"
                 stroke="#fb7185"
@@ -244,6 +251,7 @@ function AlertsOverTimeChart({ isReady }: { isReady: boolean }) {
                 fill="url(#criticalAlerts)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="high"
                 stroke="#7c8cff"
@@ -252,6 +260,7 @@ function AlertsOverTimeChart({ isReady }: { isReady: boolean }) {
                 fill="url(#highAlerts)"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="medium"
                 stroke="#38bdf8"
@@ -260,6 +269,7 @@ function AlertsOverTimeChart({ isReady }: { isReady: boolean }) {
                 fill="transparent"
               />
               <Area
+                {...chartAnimationProps}
                 type="monotone"
                 dataKey="low"
                 stroke="#34d399"
@@ -298,6 +308,7 @@ function SeverityDonut({ isReady }: { isReady: boolean }) {
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart>
               <Pie
+                {...chartPieAnimationProps}
                 data={severityDistribution}
                 dataKey="value"
                 innerRadius={72}
@@ -336,6 +347,9 @@ function SeverityDonut({ isReady }: { isReady: boolean }) {
     </section>
   );
 }
+
+const MemoizedAlertsOverTimeChart = memo(AlertsOverTimeChart);
+const MemoizedSeverityDonut = memo(SeverityDonut);
 
 function AlertsFeedTable() {
   return (

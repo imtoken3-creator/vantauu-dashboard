@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   LIVE_INTELLIGENCE_FALLBACK,
@@ -19,7 +19,29 @@ type LiveIntelligenceState = {
   error: string | null;
 };
 
-export function useLiveIntelligence(address?: string) {
+const DEFAULT_REFRESH_MS = 30_000;
+const MIN_REFRESH_MS = 15_000;
+
+type LiveIntelligenceOptions = {
+  refreshMs?: number | false;
+};
+
+function resolveRefreshMs(refreshMs: LiveIntelligenceOptions["refreshMs"]) {
+  if (refreshMs === false) {
+    return false;
+  }
+
+  return Math.max(refreshMs ?? DEFAULT_REFRESH_MS, MIN_REFRESH_MS);
+}
+
+export function useLiveIntelligence(
+  address?: string,
+  options: LiveIntelligenceOptions = {}
+) {
+  const refreshMs = useMemo(
+    () => resolveRefreshMs(options.refreshMs),
+    [options.refreshMs]
+  );
   const [state, setState] = useState<LiveIntelligenceState>({
     data: LIVE_INTELLIGENCE_FALLBACK,
     isLoading: true,
@@ -28,9 +50,18 @@ export function useLiveIntelligence(address?: string) {
 
   useEffect(() => {
     const controller = new AbortController();
+    let inFlight = false;
 
-    async function loadLiveIntelligence() {
-      setState((current) => ({ ...current, isLoading: true, error: null }));
+    async function loadLiveIntelligence(background = false) {
+      if (inFlight) {
+        return;
+      }
+
+      inFlight = true;
+
+      if (!background) {
+        setState((current) => ({ ...current, isLoading: true, error: null }));
+      }
 
       try {
         const params = address ? `?address=${encodeURIComponent(address)}` : "";
@@ -50,10 +81,22 @@ export function useLiveIntelligence(address?: string) {
           payload.data.wallet.error ??
           null;
 
-        setState({
+        const nextState: LiveIntelligenceState = {
           data: payload.data,
           isLoading: false,
           error: payload.ok ? null : fallbackReason,
+        };
+
+        setState((current) => {
+          if (
+            background &&
+            current.data.updatedAt === nextState.data.updatedAt &&
+            current.error === nextState.error
+          ) {
+            return current;
+          }
+
+          return nextState;
         });
       } catch (error) {
         if (controller.signal.aborted) {
@@ -68,13 +111,30 @@ export function useLiveIntelligence(address?: string) {
               ? error.message
               : "Live data is temporarily unavailable",
         });
+      } finally {
+        inFlight = false;
       }
     }
 
     loadLiveIntelligence();
 
-    return () => controller.abort();
-  }, [address]);
+    const intervalId =
+      refreshMs === false
+        ? undefined
+        : window.setInterval(() => {
+            if (document.visibilityState === "visible") {
+              void loadLiveIntelligence(true);
+            }
+          }, refreshMs);
+
+    return () => {
+      controller.abort();
+
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, [address, refreshMs]);
 
   return state;
 }

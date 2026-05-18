@@ -88,6 +88,7 @@ export function WaitlistModal({
           exit={{ opacity: 0 }}
         >
           <button
+            type="button"
             aria-label="Close waitlist modal"
             className="absolute inset-0 bg-black/70 backdrop-blur-xl"
             onClick={closeModal}
@@ -101,11 +102,11 @@ export function WaitlistModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 18, scale: 0.98 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="glow-border relative w-full max-w-xl overflow-hidden rounded-lg border border-white/10 bg-background/90 p-5 shadow-2xl shadow-primary/20 backdrop-blur-2xl sm:p-6"
+            className="glow-border relative w-full max-w-xl overflow-hidden rounded-lg border border-white/10 bg-background/90 p-5 shadow-xl shadow-primary/15 backdrop-blur-xl sm:p-6"
           >
             <div className="absolute inset-0 cyber-grid animated-grid opacity-20" />
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/80 to-transparent" />
-            <div className="absolute -right-24 top-10 h-40 w-72 bg-primary/15 blur-3xl" />
+            <div className="absolute -right-24 top-10 h-40 w-72 bg-primary/12 blur-2xl" />
 
             <div className="relative flex items-start justify-between gap-4">
               <div>
@@ -126,6 +127,7 @@ export function WaitlistModal({
               </div>
 
               <button
+                type="button"
                 aria-label="Close waitlist modal"
                 className="rounded-lg border border-white/10 bg-white/[0.05] p-2 text-muted-foreground transition hover:border-primary/30 hover:text-white"
                 onClick={closeModal}
@@ -157,6 +159,7 @@ export function WaitlistModal({
                     {count ? ` You are submission #${count}.` : ""}
                   </p>
                   <button
+                    type="button"
                     className="mt-5 inline-flex h-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] px-4 text-sm font-medium text-white transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
                     onClick={closeModal}
                   >
@@ -223,7 +226,7 @@ export function WaitlistModal({
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-2xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/40 disabled:cursor-not-allowed disabled:opacity-70"
+                    className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-xl shadow-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {status === "submitting" ? (
                       <LoaderCircle className="size-4 animate-spin" />

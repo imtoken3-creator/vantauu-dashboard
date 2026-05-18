@@ -28,7 +28,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-sidebar-border bg-sidebar/84 p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl lg:flex lg:flex-col">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-sidebar-border bg-sidebar/84 p-4 shadow-xl shadow-black/25 backdrop-blur-xl lg:flex lg:flex-col">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),transparent_18rem),linear-gradient(115deg,rgba(124,140,255,0.1),transparent_24rem)]" />
 
       <Link href="/dashboard" className="relative mb-8 flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/[0.035]">
@@ -43,7 +43,7 @@ export function Sidebar() {
         </div>
       </Link>
 
-      <nav className="relative space-y-1">
+      <nav aria-label="Dashboard navigation" className="relative space-y-1">
         {navigation.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -56,6 +56,7 @@ export function Sidebar() {
                 isActive &&
                   "border-primary/25 bg-sidebar-accent text-white shadow-lg shadow-primary/10"
               )}
+              aria-current={isActive ? "page" : undefined}
             >
               <item.icon
                 className={cn(

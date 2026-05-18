@@ -26,7 +26,10 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="glow-border fixed inset-x-3 bottom-3 z-40 grid grid-cols-6 rounded-lg border border-white/10 bg-background/88 p-1 shadow-2xl shadow-black/40 backdrop-blur-2xl lg:hidden">
+    <nav
+      aria-label="Mobile dashboard navigation"
+      className="glow-border fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 grid grid-cols-6 rounded-lg border border-white/10 bg-background/88 p-1 shadow-xl shadow-black/30 backdrop-blur-xl lg:hidden"
+    >
       {items.map((item) => {
         const isActive = pathname === item.href;
         return (
@@ -38,6 +41,7 @@ export function MobileNav() {
               isActive && "bg-primary/15 text-white shadow-inner shadow-primary/10"
             )}
             aria-label={item.name}
+            aria-current={isActive ? "page" : undefined}
           >
             <item.icon
               className={cn(

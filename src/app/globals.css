@@ -90,6 +90,7 @@
 
   html {
     @apply scroll-smooth font-sans;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -101,8 +102,32 @@
       linear-gradient(135deg, oklch(0.075 0.036 270), oklch(0.116 0.042 248) 48%, oklch(0.065 0.03 280));
     background-size: 140% 140%, 150% 150%, 100% 100%, 100% 100%;
     background-position: 0% 0%, 100% 0%, 50% 0%, 50% 50%;
-    animation: ambient-gradient-shift 28s ease-in-out infinite alternate;
+    animation: ambient-gradient-shift 42s ease-in-out infinite alternate;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     text-rendering: geometricPrecision;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in oklch, var(--primary) 74%, white);
+    outline-offset: 3px;
   }
 
   ::selection {
@@ -112,9 +137,9 @@
 
 @layer components {
   .glass-panel {
-    @apply border border-white/10 bg-white/[0.052] shadow-2xl shadow-black/30 backdrop-blur-2xl;
+    @apply border border-white/10 bg-white/[0.052] shadow-xl shadow-black/25 backdrop-blur-xl;
     box-shadow:
-      0 24px 80px rgba(0, 0, 0, 0.34),
+      0 18px 52px rgba(0, 0, 0, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.065);
   }
 
@@ -123,42 +148,42 @@
   }
 
   .hero-surface {
-    @apply relative isolate overflow-hidden rounded-lg border border-white/10 p-6 shadow-2xl shadow-black/40 backdrop-blur-2xl transition duration-500 sm:p-8 xl:p-10;
+    @apply relative isolate overflow-hidden rounded-lg border border-white/10 p-6 shadow-xl shadow-black/35 backdrop-blur-xl transition duration-500 sm:p-8 xl:p-10;
     background:
       linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 32%),
       linear-gradient(92deg, rgba(96, 165, 250, 0.12), transparent 44%),
       linear-gradient(135deg, rgba(17, 24, 48, 0.94), rgba(13, 18, 38, 0.86) 54%, rgba(6, 9, 20, 0.96));
     background-size: 130% 130%, 150% 150%, 100% 100%;
-    animation: surface-gradient-breathe 18s ease-in-out infinite alternate;
+    animation: surface-gradient-breathe 30s ease-in-out infinite alternate;
     box-shadow:
-      0 28px 96px rgba(0, 0, 0, 0.44),
+      0 22px 68px rgba(0, 0, 0, 0.36),
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
       inset 0 -1px 0 rgba(124, 140, 255, 0.09);
   }
 
   .section-surface {
-    @apply relative isolate overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl transition duration-500 sm:p-6;
+    @apply relative isolate overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-5 shadow-xl shadow-black/25 backdrop-blur-xl transition duration-500 sm:p-6;
     box-shadow:
-      0 22px 72px rgba(0, 0, 0, 0.31),
+      0 16px 48px rgba(0, 0, 0, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.064);
   }
 
   .section-surface-grid {
-    @apply relative isolate overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl transition duration-500 sm:p-6;
+    @apply relative isolate overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-5 shadow-xl shadow-black/25 backdrop-blur-xl transition duration-500 sm:p-6;
     box-shadow:
-      0 22px 72px rgba(0, 0, 0, 0.31),
+      0 16px 48px rgba(0, 0, 0, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.064);
   }
 
   .metric-card {
-    @apply relative isolate min-h-[188px] overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.078),rgba(255,255,255,0.024))] p-5 shadow-2xl shadow-black/25 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-white/15 hover:bg-white/[0.07];
+    @apply relative isolate min-h-[188px] overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.078),rgba(255,255,255,0.024))] p-5 shadow-xl shadow-black/20 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-white/15 hover:bg-white/[0.07];
     box-shadow:
-      0 20px 64px rgba(0, 0, 0, 0.28),
+      0 14px 42px rgba(0, 0, 0, 0.23),
       inset 0 1px 0 rgba(255, 255, 255, 0.062);
   }
 
   .surface-card {
-    @apply relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-4 shadow-inner shadow-white/[0.04] backdrop-blur-xl transition duration-500 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.068];
+    @apply relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.052] p-4 shadow-inner shadow-white/[0.04] backdrop-blur-md transition duration-500 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.068];
   }
 
   .interactive-row {
@@ -184,7 +209,7 @@
     @apply relative isolate h-80 min-h-72 overflow-hidden rounded-lg border border-white/[0.075] bg-black/15 p-2;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.045),
-      inset 0 -24px 80px rgba(79, 70, 229, 0.06);
+      inset 0 -18px 56px rgba(79, 70, 229, 0.045);
   }
 
   .chart-frame::before {
@@ -242,7 +267,7 @@
     box-shadow:
       inset 0 0 0 1px rgba(255, 255, 255, 0.058),
       0 0 0 1px rgba(124, 140, 255, 0.075),
-      0 0 48px rgba(79, 70, 229, 0.08);
+      0 0 30px rgba(79, 70, 229, 0.065);
     opacity: 0.86;
     transition: opacity 300ms ease, box-shadow 300ms ease;
   }
@@ -255,7 +280,7 @@
     box-shadow:
       inset 0 0 0 1px rgba(255, 255, 255, 0.08),
       0 0 0 1px rgba(125, 211, 252, 0.18),
-      0 0 58px rgba(99, 102, 241, 0.18);
+      0 0 36px rgba(99, 102, 241, 0.14);
     opacity: 1;
   }
 
@@ -279,7 +304,7 @@
     );
     opacity: 0;
     transform: translateX(-42%);
-    transition: opacity 450ms ease, transform 850ms ease;
+    transition: opacity 420ms ease, transform 650ms ease;
   }
 
   .section-surface:hover::after,
@@ -299,20 +324,20 @@
       linear-gradient(rgba(124, 140, 255, 0.1) 1px, transparent 1px);
     background-size: 64px 64px, 64px 64px, 256px 256px;
     mask-image: linear-gradient(to bottom, black, transparent 88%);
-    will-change: background-position;
   }
 
   .animated-grid {
-    animation: grid-drift 32s linear infinite;
+    animation: grid-drift 54s linear infinite;
+    will-change: background-position;
   }
 
   .scan-line {
     @apply pointer-events-none absolute inset-x-0 top-0 h-28;
-    animation: scan 7.2s ease-in-out infinite;
+    animation: scan 12s ease-in-out infinite;
     background: linear-gradient(
       to bottom,
       transparent,
-      rgba(125, 211, 252, 0.095),
+      rgba(125, 211, 252, 0.07),
       transparent
     );
   }
@@ -323,7 +348,7 @@
       radial-gradient(circle at 82% 24%, rgba(124, 140, 255, 0.18), transparent 36%),
       radial-gradient(circle at 48% 86%, rgba(168, 85, 247, 0.11), transparent 34%);
     background-size: 130% 130%;
-    animation: cinematic-gradient-flow 22s ease-in-out infinite alternate;
+    animation: cinematic-gradient-flow 36s ease-in-out infinite alternate;
   }
 
   .ai-signal-pulse {
@@ -333,7 +358,7 @@
     height: 0.5rem;
     border-radius: 999px;
     background: rgb(110, 231, 183);
-    box-shadow: 0 0 18px rgba(110, 231, 183, 0.8);
+    box-shadow: 0 0 14px rgba(110, 231, 183, 0.62);
   }
 
   .ai-signal-pulse::before {
@@ -342,7 +367,7 @@
     inset: -0.38rem;
     border-radius: inherit;
     border: 1px solid rgba(110, 231, 183, 0.28);
-    animation: signal-pulse 2.8s ease-out infinite;
+    animation: signal-pulse 4.2s ease-out infinite;
   }
 
   .live-shimmer {
@@ -363,7 +388,7 @@
       transparent 60%
     );
     transform: translateX(-120%);
-    animation: live-shimmer 4.8s ease-in-out infinite;
+    animation: live-shimmer 8.5s ease-in-out infinite;
   }
 
   .live-data-bar {
@@ -377,11 +402,11 @@
     inset: 0;
     background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.18), transparent);
     transform: translateY(100%);
-    animation: data-bar-scan 4.2s ease-in-out infinite;
+    animation: data-bar-scan 7.5s ease-in-out infinite;
   }
 
   .timestamp-motion {
-    animation: timestamp-sync 3.6s ease-in-out infinite;
+    animation: timestamp-sync 5.5s ease-in-out infinite;
     font-variant-numeric: tabular-nums;
   }
 }
@@ -522,5 +547,20 @@
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-surface,
+  .section-surface,
+  .section-surface-grid,
+  .metric-card {
+    box-shadow:
+      0 12px 34px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  }
+
+  .chart-frame {
+    min-height: 18rem;
   }
 }
