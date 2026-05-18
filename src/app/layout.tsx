@@ -5,6 +5,7 @@ import { ProductionAnalytics } from "@/components/analytics/production-analytics
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vantauu.ai";
 const siteTitle = "VANTAUU — AI On-chain Intelligence";
+const faviconVersion = "minimal-v1";
 const siteDescription =
   "AI-powered on-chain intelligence for tracking smart money, capital flow, narratives, and market signals in real time.";
 const previewImageAlt = "VANTAUU AI on-chain intelligence terminal";
@@ -76,30 +77,17 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: `/icon.svg?v=${faviconVersion}`, type: "image/svg+xml", sizes: "any" },
+      { url: `/favicon.ico?v=${faviconVersion}`, sizes: "any" },
+      { url: `/favicon-32x32.png?v=${faviconVersion}`, type: "image/png", sizes: "32x32" },
+      { url: `/favicon-16x16.png?v=${faviconVersion}`, type: "image/png", sizes: "16x16" },
     ],
-    shortcut: [{ url: "/favicon.ico" }],
+    shortcut: [{ url: `/favicon.ico?v=${faviconVersion}` }],
     apple: [
       {
-        url: "/apple-touch-icon.png",
+        url: `/apple-icon.png?v=${faviconVersion}`,
         type: "image/png",
         sizes: "180x180",
-      },
-    ],
-    other: [
-      {
-        rel: "icon",
-        url: "/android-chrome-192x192.png",
-        type: "image/png",
-        sizes: "192x192",
-      },
-      {
-        rel: "icon",
-        url: "/android-chrome-512x512.png",
-        type: "image/png",
-        sizes: "512x512",
       },
     ],
   },
