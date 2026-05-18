@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   BrainCircuit,
@@ -33,27 +32,18 @@ export function DashboardHero() {
       <div className="absolute inset-0 cyber-grid animated-grid opacity-45" />
       <div className="cinematic-gradient absolute inset-0 opacity-35" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-      <motion.div
+      <div
         aria-hidden
-        animate={{ opacity: [0.5, 0.9, 0.5], x: [0, 16, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-20 top-12 h-px w-[34rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/70 to-transparent blur-md"
+        className="absolute -right-20 top-12 h-px w-[34rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/45 to-transparent blur-sm"
       />
-      <motion.div
+      <div
         aria-hidden
-        animate={{ opacity: [0.45, 0.72, 0.45] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 left-1/4 h-40 w-3/4 bg-gradient-to-r from-transparent via-cyan-400/8 to-violet-500/8 blur-xl"
+        className="absolute bottom-0 left-1/4 h-32 w-3/4 bg-gradient-to-r from-transparent via-cyan-400/6 to-violet-500/6 blur-sm"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.04),transparent_18%,transparent_82%,rgba(255,255,255,0.035))]" />
 
       <div className="relative grid gap-10 xl:grid-cols-[1.02fr_0.98fr] xl:items-stretch">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
-          className="flex flex-col justify-between"
-        >
+        <div className="flex flex-col justify-between">
           <div>
             <div className="live-shimmer mb-6 inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.22em] text-primary shadow-lg shadow-primary/10">
               <Sparkles className="size-3.5" />
@@ -102,14 +92,9 @@ export function DashboardHero() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.12, duration: 0.65, ease: "easeOut" }}
-          className="hidden gap-4 lg:grid lg:grid-cols-[1fr_0.86fr] xl:grid-cols-1 2xl:grid-cols-[1fr_0.86fr]"
-        >
+        <div className="hidden gap-4 lg:grid lg:grid-cols-[1fr_0.86fr] xl:grid-cols-1 2xl:grid-cols-[1fr_0.86fr]">
           <div className="glow-border relative min-h-80 overflow-hidden rounded-lg border border-white/10 bg-black/25 p-4 shadow-xl shadow-primary/10">
             <div className="scan-line" />
             <div className="mb-4 flex items-center justify-between">
@@ -183,7 +168,7 @@ export function DashboardHero() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <div className="relative mt-6 hidden gap-3 border-t border-white/10 pt-5 sm:grid sm:grid-cols-3">

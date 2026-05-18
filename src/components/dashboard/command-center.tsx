@@ -53,7 +53,7 @@ import {
 } from "@/lib/live-intelligence";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -346,7 +346,6 @@ export function CommandCenter() {
     <motion.div
       initial="hidden"
       animate="visible"
-      transition={{ staggerChildren: 0.08 }}
       className="page-stack"
     >
       <CommandHero
@@ -524,10 +523,8 @@ function CommandHero({
           ].map(([label, title, meta, Icon]) => {
             const PanelIcon = Icon as typeof Layers3;
             return (
-              <motion.article
+              <article
                 key={String(label)}
-                whileHover={{ x: -4 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="surface-card group"
               >
                 <div className="flex items-start justify-between gap-4">
@@ -544,7 +541,7 @@ function CommandHero({
                     <PanelIcon className="size-4" />
                   </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>
@@ -636,11 +633,9 @@ function IntelligenceCards({ cards }: { cards: IntelligenceCard[] }) {
 
       <div className="relative grid gap-3 lg:grid-cols-2">
         {cards.map((card, index) => (
-          <motion.article
+          <article
             key={card.title}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className={`group relative rounded-lg border p-4 shadow-xl backdrop-blur-xl ${cardTone(card.tone)}`}
+            className={`group relative rounded-lg border p-4 shadow-lg backdrop-blur-sm ${cardTone(card.tone)}`}
           >
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -667,7 +662,7 @@ function IntelligenceCards({ cards }: { cards: IntelligenceCard[] }) {
               className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-0 transition group-hover:opacity-100"
               style={{ transitionDelay: `${index * 35}ms` }}
             />
-          </motion.article>
+          </article>
         ))}
       </div>
     </section>
@@ -831,10 +826,8 @@ function AISignalEngine({
 
       <div className="space-y-3">
         {signals.map((signal, index) => (
-          <motion.article
+          <article
             key={signal.type}
-            whileHover={{ x: 2 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
             className={`interactive-row-cyan group ${index === 0 ? "live-shimmer" : ""}`}
           >
             <div className="flex items-start justify-between gap-4">
@@ -868,7 +861,7 @@ function AISignalEngine({
             <div className="mt-3 rounded-md border border-white/10 bg-white/[0.035] px-3 py-2 text-xs leading-5 text-muted-foreground">
               {signal.whatThisMeans}
             </div>
-          </motion.article>
+          </article>
         ))}
       </div>
       <WhatThisMeans>{explanation}</WhatThisMeans>

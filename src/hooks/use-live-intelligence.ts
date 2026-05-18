@@ -19,8 +19,8 @@ type LiveIntelligenceState = {
   error: string | null;
 };
 
-const DEFAULT_REFRESH_MS = 30_000;
-const MIN_REFRESH_MS = 15_000;
+const DEFAULT_REFRESH_MS = 60_000;
+const MIN_REFRESH_MS = 60_000;
 
 type LiveIntelligenceOptions = {
   refreshMs?: number | false;

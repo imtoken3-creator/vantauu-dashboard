@@ -546,7 +546,7 @@ export const apiDocsSections: ApiDocsSection[] = [
         name: "heartbeat",
         type: "number",
         required: false,
-        description: "Client heartbeat interval in seconds. Defaults to 30.",
+        description: "Client heartbeat interval in seconds. Defaults to 60.",
       },
     ],
     requestExample: `const socket = new WebSocket("wss://api.vantauu.dev/v1/stream");

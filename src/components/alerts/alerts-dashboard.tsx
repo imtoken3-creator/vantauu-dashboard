@@ -50,7 +50,7 @@ import { cn } from "@/lib/utils";
 const kpiIcons = [Bell, Siren, ShieldAlert, AlertTriangle, CircleAlert];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -76,7 +76,6 @@ export function AlertsDashboard() {
     <motion.div
       initial="hidden"
       animate="visible"
-      transition={{ staggerChildren: 0.08 }}
       className="page-stack"
     >
       <motion.section

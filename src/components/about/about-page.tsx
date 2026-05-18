@@ -21,17 +21,13 @@ import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
 const stagger = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
+  visible: {},
 };
 
 const beliefs = [
@@ -245,12 +241,7 @@ function HeroSection({ onRequestAccess }: { onRequestAccess: () => void }) {
           </motion.div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.25, duration: 0.75, ease: "easeOut" }}
-          className="hero-surface min-h-[460px]"
-        >
+        <div className="hero-surface min-h-[460px]">
           <div className="absolute inset-0 cyber-grid animated-grid opacity-25" />
           <div className="scan-line" />
           <div className="relative">
@@ -274,7 +265,7 @@ function HeroSection({ onRequestAccess }: { onRequestAccess: () => void }) {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -456,11 +447,9 @@ function RecruitingCta({ onRequestAccess }: { onRequestAccess: () => void }) {
           <div className="cinematic-gradient absolute inset-0 opacity-25" />
           <div className="scan-line" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
-          <motion.div
+          <div
             aria-hidden
-            animate={{ opacity: [0.25, 0.65, 0.25], x: [0, 18, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-24 top-20 h-px w-[38rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/70 to-transparent blur-md"
+            className="absolute -right-24 top-20 h-px w-[38rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/45 to-transparent blur-sm"
           />
 
           <div className="relative">
@@ -502,8 +491,6 @@ function RecruitingCta({ onRequestAccess }: { onRequestAccess: () => void }) {
                   type="button"
                   onClick={onRequestAccess}
                   variants={fadeUp}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className={`section-surface-grid group flex min-h-[390px] flex-col text-left ${
                     index === 0 ? "xl:col-span-2" : ""
                   }`}
@@ -621,15 +608,11 @@ function MotionSection({
   id?: string;
 }) {
   return (
-    <motion.section
+    <section
       id={id}
-      variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.16 }}
       className={className}
     >
       {children}
-    </motion.section>
+    </section>
   );
 }

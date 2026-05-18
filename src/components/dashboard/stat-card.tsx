@@ -1,7 +1,6 @@
 "use client";
 
 import { Activity, Brain, CircleDollarSign, Radar } from "lucide-react";
-import { motion } from "framer-motion";
 
 const icons = [Brain, CircleDollarSign, Radar, Activity];
 const accentStyles = {
@@ -48,13 +47,7 @@ export function StatCard({
   const styles = accentStyles[accent] ?? accentStyles.violet;
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="metric-card group"
-    >
+    <article className="metric-card group">
       <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${styles.line}`} />
       <div className="absolute -right-12 top-0 h-24 w-40 rotate-12 bg-white/5 blur-xl transition duration-500 group-hover:bg-primary/12" />
       <div className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
@@ -93,6 +86,6 @@ export function StatCard({
           {delta}
         </span>
       </div>
-    </motion.article>
+    </article>
   );
 }

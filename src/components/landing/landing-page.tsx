@@ -34,17 +34,13 @@ import {
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
 const stagger = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
+  visible: {},
 };
 
 const ecosystem = [
@@ -247,7 +243,7 @@ export function LandingPage() {
     data: liveData,
     isLoading: isLiveLoading,
     error: liveError,
-  } = useLiveIntelligence();
+  } = useLiveIntelligence(undefined, { refreshMs: false });
   const openWaitlist = (source: string) => {
     setWaitlistSource(source);
     setWaitlistOpen(true);
@@ -599,11 +595,8 @@ function HeroIntelligenceScene({
     liveData.wallet.tokenTransfers.length || liveData.wallet.transactions.length;
 
   return (
-    <motion.div
+    <div
       aria-hidden
-      initial={{ opacity: 0, y: 26, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: 0.28, duration: 0.8, ease: "easeOut" }}
       className="pointer-events-none relative z-0 mx-auto mt-4 w-full max-w-[620px] sm:mt-8 lg:mx-0 lg:mt-0 lg:max-w-[700px] lg:translate-x-8 lg:translate-y-16 xl:translate-x-12 xl:translate-y-24"
     >
       <div className="relative overflow-hidden rounded-lg border border-white/10 bg-black/35 p-3 shadow-xl shadow-primary/15 backdrop-blur-xl sm:p-4">
@@ -695,7 +688,7 @@ function HeroIntelligenceScene({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -1182,10 +1175,8 @@ function AISignalFeedPreview({
       </div>
       <div className="space-y-3">
         {signals.map(([title, severity, source, score], index) => (
-          <motion.div
+          <div
             key={title}
-            whileHover={{ x: 2 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
             className={`interactive-row ${index === 0 ? "live-shimmer" : ""}`}
           >
             <div className="flex items-start justify-between gap-3">
@@ -1206,7 +1197,7 @@ function AISignalFeedPreview({
               </div>
               <span className="text-xs font-medium text-slate-300">{score}</span>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>
@@ -1319,11 +1310,9 @@ function FloatingSignalPanel({
   const trending = liveData.market.trending[0];
 
   return (
-    <motion.div
+    <div
       aria-hidden
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      className="pointer-events-none absolute -right-3 top-12 hidden w-72 rounded-lg border border-cyan-300/20 bg-background/80 p-4 shadow-xl shadow-cyan-300/10 backdrop-blur-xl xl:block"
+      className="pointer-events-none absolute -right-3 top-12 hidden w-72 rounded-lg border border-cyan-300/20 bg-background/82 p-4 shadow-lg shadow-cyan-300/5 backdrop-blur-sm xl:block"
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs uppercase tracking-[0.18em] text-cyan-100">
@@ -1339,7 +1328,7 @@ function FloatingSignalPanel({
       <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div className="live-data-bar h-full w-[86%] rounded-full bg-gradient-to-r from-cyan-300 via-primary to-violet-400" />
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -1348,11 +1337,9 @@ function FloatingWalletPanel({ liveData }: { liveData: LiveIntelligenceData }) {
     liveData.wallet.tokenTransfers.length || liveData.wallet.transactions.length;
 
   return (
-    <motion.div
+    <div
       aria-hidden
-      animate={{ y: [0, 10, 0] }}
-      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      className="pointer-events-none absolute -left-4 bottom-20 hidden w-80 rounded-lg border border-primary/20 bg-background/80 p-4 shadow-xl shadow-primary/10 backdrop-blur-xl xl:block"
+      className="pointer-events-none absolute -left-4 bottom-20 hidden w-80 rounded-lg border border-primary/20 bg-background/82 p-4 shadow-lg shadow-primary/5 backdrop-blur-sm xl:block"
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs uppercase tracking-[0.18em] text-primary">
@@ -1375,7 +1362,7 @@ function FloatingWalletPanel({ liveData }: { liveData: LiveIntelligenceData }) {
           {liveData.wallet.enabled ? eventCount : "API"}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -1602,11 +1589,9 @@ function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
           <div className="cinematic-gradient absolute inset-0 opacity-25" />
           <div className="scan-line" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
-          <motion.div
+          <div
             aria-hidden
-            animate={{ opacity: [0.35, 0.75, 0.35], x: [0, 16, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -right-24 top-20 h-px w-[38rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/70 to-transparent blur-md"
+            className="absolute -right-24 top-20 h-px w-[38rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/45 to-transparent blur-sm"
           />
 
           <div className="relative">
@@ -1640,8 +1625,6 @@ function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
                   type="button"
                   onClick={onRequestAccess}
                   variants={fadeUp}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className={`section-surface-grid group min-h-[430px] text-left ${
                     index === 0 ? "xl:col-span-2" : ""
                   }`}
@@ -1819,15 +1802,11 @@ function MotionSection({
   id?: string;
 }) {
   return (
-    <motion.section
+    <section
       id={id}
-      variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.16 }}
       className={className}
     >
       {children}
-    </motion.section>
+    </section>
   );
 }
