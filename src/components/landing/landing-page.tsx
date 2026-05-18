@@ -1596,16 +1596,22 @@ function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
 
           <div className="relative">
             <div>
-              <p className="section-eyebrow">Founding Leadership</p>
+              <p className="section-eyebrow">Remote-First Team</p>
               <h2 className="max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
                 We&apos;re assembling the founding leadership team for AI-native
                 market intelligence.
               </h2>
-              <p className="mt-5 max-w-3xl text-sm leading-6 text-slate-300 sm:text-base">
-                Vantauu is early, ambitious, and built for people who want to
-                shape the company, not inherit a playbook. These are not
-                department seats. They are founding mandates.
-              </p>
+              <div className="mt-6 max-w-2xl space-y-4 text-sm leading-7 text-slate-300 sm:text-base">
+                <p>
+                  Vantauu is built as a globally distributed intelligence
+                  company.
+                </p>
+                <p>
+                  We work across time zones, ecosystems, and markets — focusing
+                  on speed, research quality, and market understanding rather
+                  than traditional corporate structure.
+                </p>
+              </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 {["Company-defining roles", "High ownership", "AI x crypto x finance"].map((item) => (
                   <span
