@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const items = [
-  { name: "Home", href: "/", icon: LayoutDashboard },
+  { name: "Home", href: "/dashboard", icon: LayoutDashboard },
   { name: "Smart", href: "/smart-money", icon: BrainCircuit },
   { name: "Flow", href: "/capital-flow", icon: CircleDollarSign },
   { name: "Themes", href: "/narratives", icon: ChartNoAxesCombined },

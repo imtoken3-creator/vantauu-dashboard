@@ -31,6 +31,7 @@ export function DashboardHero() {
   return (
     <section className="hero-surface xl:min-h-[540px]">
       <div className="absolute inset-0 cyber-grid animated-grid opacity-45" />
+      <div className="cinematic-gradient absolute inset-0 opacity-35" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
       <motion.div
         aria-hidden
@@ -54,7 +55,7 @@ export function DashboardHero() {
           className="flex flex-col justify-between"
         >
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.22em] text-primary shadow-lg shadow-primary/10">
+            <div className="live-shimmer mb-6 inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.22em] text-primary shadow-lg shadow-primary/10">
               <Sparkles className="size-3.5" />
               AI native crypto command layer
             </div>
@@ -123,7 +124,8 @@ export function DashboardHero() {
                   </p>
                 </div>
               </div>
-              <span className="rounded-md border border-emerald-300/20 bg-emerald-300/10 px-2 py-1 text-xs text-emerald-200">
+              <span className="live-shimmer inline-flex items-center gap-2 rounded-md border border-emerald-300/20 bg-emerald-300/10 px-2 py-1 text-xs text-emerald-200">
+                <span className="ai-signal-pulse" />
                 Live
               </span>
             </div>

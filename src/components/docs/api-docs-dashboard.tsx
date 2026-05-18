@@ -95,6 +95,8 @@ export function ApiDocsDashboard() {
         className="hero-surface"
       >
         <div className="absolute inset-0 cyber-grid animated-grid opacity-35" />
+        <div className="cinematic-gradient absolute inset-0 opacity-25" />
+        <div className="scan-line" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
         <div className="absolute -right-20 top-12 h-px w-[34rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/80 to-transparent blur-md" />
 

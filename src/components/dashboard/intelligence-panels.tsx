@@ -41,7 +41,7 @@ export function IntelligencePanels() {
                 </div>
                 <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-primary to-violet-400"
+                    className="live-data-bar h-full rounded-full bg-gradient-to-r from-cyan-300 via-primary to-violet-400"
                     style={{ width: `${item.heat}%` }}
                   />
                 </div>

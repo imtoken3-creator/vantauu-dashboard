@@ -38,8 +38,15 @@ import {
   stablecoinAllocation,
   topProtocolsByInflow,
 } from "@/data/capital-flow";
+import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { isEmpty } from "@/lib/collection";
 import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  formatNumber,
+  formatPercent,
+  formatUsd,
+  type LiveIntelligenceData,
+} from "@/lib/live-intelligence";
 
 const kpiIcons = [CircleDollarSign, TrendingUp, TrendingDown, UsersRound];
 
@@ -65,8 +72,111 @@ function ChartSkeleton() {
   );
 }
 
+function stablecoinNetFlow(data: LiveIntelligenceData) {
+  if (!data.defi.stablecoinTotalUsd || data.defi.stablecoinChange7d == null) {
+    return null;
+  }
+
+  return (data.defi.stablecoinTotalUsd * data.defi.stablecoinChange7d) / 100;
+}
+
+function buildCapitalFlowKpis(data: LiveIntelligenceData, isLoading: boolean) {
+  if (isLoading) {
+    return capitalFlowKpis.map((kpi) => ({
+      ...kpi,
+      value: "Loading",
+      change: "Sync",
+      detail: "Fetching DefiLlama liquidity data",
+    }));
+  }
+
+  const netFlow = stablecoinNetFlow(data);
+  const grossFlow = Math.abs(netFlow ?? 0);
+  const totalTvl = data.defi.chains.reduce((total, chain) => total + chain.tvlUsd, 0);
+
+  return [
+    {
+      label: "Total Net Inflow",
+      value: formatUsd(netFlow),
+      change: formatPercent(data.defi.stablecoinChange7d),
+      detail: "7D stablecoin supply change across all chains",
+    },
+    {
+      label: "Total Inflow",
+      value: formatUsd(netFlow && netFlow > 0 ? netFlow : grossFlow),
+      change: "Stablecoins",
+      detail: "Positive liquidity expansion derived from DefiLlama",
+    },
+    {
+      label: "Total Outflow",
+      value: formatUsd(netFlow && netFlow < 0 ? Math.abs(netFlow) : 0),
+      change: "7D",
+      detail: "Negative stablecoin contraction when present",
+    },
+    {
+      label: "Active Addresses",
+      value: formatNumber(data.defi.chains.length),
+      change: "Chains",
+      detail: `${formatUsd(totalTvl)} TVL across tracked ecosystems`,
+    },
+  ];
+}
+
+function buildEcosystemRanking(data: LiveIntelligenceData, isLoading: boolean) {
+  if (isLoading || data.defi.chains.length === 0) {
+    return ecosystemRanking;
+  }
+
+  const totalTvl = data.defi.chains.reduce((total, chain) => total + chain.tvlUsd, 0);
+
+  return data.defi.chains.slice(0, 5).map((chain) => {
+    const change7d = chain.change7d ?? 0;
+    const change1d = chain.change1d ?? 0;
+
+    return {
+      chain: chain.name,
+      netFlow: formatPercent(change7d),
+      inflow: formatUsd(chain.tvlUsd),
+      outflow: formatPercent(change1d),
+      active: "Live",
+      dominance: totalTvl > 0 ? Math.round((chain.tvlUsd / totalTvl) * 100) : 0,
+      status:
+        change7d > 5
+          ? "Accelerating"
+          : change7d < 0
+            ? "Contracting"
+            : "Stable",
+    };
+  });
+}
+
+function buildStablecoinAllocation(data: LiveIntelligenceData, isLoading: boolean) {
+  if (isLoading || data.defi.stablecoins.every((item) => item.marketCapUsd === 0)) {
+    return stablecoinAllocation;
+  }
+
+  const colors = ["#7c8cff", "#34d399", "#a855f7", "#38bdf8"];
+  const total = data.defi.stablecoins.reduce(
+    (sum, item) => sum + item.marketCapUsd,
+    0
+  );
+
+  return data.defi.stablecoins.map((item, index) => ({
+    name: item.symbol,
+    value: total > 0 ? Number(((item.marketCapUsd / total) * 100).toFixed(1)) : 0,
+    color: colors[index] ?? "#38bdf8",
+  }));
+}
+
 export function CapitalFlowDashboard() {
   const isChartReady = useChartReady();
+  const { data: liveData, isLoading: isLiveLoading } = useLiveIntelligence();
+  const liveKpis = buildCapitalFlowKpis(liveData, isLiveLoading);
+  const liveRanking = buildEcosystemRanking(liveData, isLiveLoading);
+  const liveStablecoinAllocation = buildStablecoinAllocation(
+    liveData,
+    isLiveLoading
+  );
 
   return (
     <motion.div
@@ -81,6 +191,8 @@ export function CapitalFlowDashboard() {
         className="hero-surface"
       >
         <div className="absolute inset-0 cyber-grid animated-grid opacity-35" />
+        <div className="cinematic-gradient absolute inset-0 opacity-25" />
+        <div className="scan-line" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
         <div className="absolute -right-24 top-16 h-px w-[36rem] -rotate-12 bg-gradient-to-r from-transparent via-primary/70 to-transparent blur-md" />
 
@@ -101,9 +213,15 @@ export function CapitalFlowDashboard() {
 
           <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[420px]">
             {[
-              ["Bridge volume", "$742M"],
-              ["Flow freshness", "90s"],
-              ["Tracked chains", "19"],
+              [
+                "Stablecoin supply",
+                isLiveLoading ? "Loading" : formatUsd(liveData.defi.stablecoinTotalUsd),
+              ],
+              ["Flow freshness", isLiveLoading ? "Syncing" : "60s"],
+              [
+                "Tracked chains",
+                isLiveLoading ? "Loading" : formatNumber(liveData.defi.chains.length),
+              ],
             ].map(([label, value]) => (
               <div
                 key={label}
@@ -124,7 +242,7 @@ export function CapitalFlowDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
       >
-        {capitalFlowKpis.map((kpi, index) => {
+        {liveKpis.map((kpi, index) => {
           const Icon = kpiIcons[index] ?? Activity;
           return (
             <article
@@ -163,8 +281,11 @@ export function CapitalFlowDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.45fr_0.75fr]"
       >
-        <CapitalFlowChart isReady={isChartReady} />
-        <StablecoinDonut isReady={isChartReady} />
+        <CapitalFlowChart isReady={isChartReady} isLiveLoading={isLiveLoading} />
+        <StablecoinDonut
+          isReady={isChartReady}
+          allocation={liveStablecoinAllocation}
+        />
       </motion.section>
 
       <motion.section
@@ -172,7 +293,7 @@ export function CapitalFlowDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-6 xl:grid-cols-[1.25fr_0.95fr]"
       >
-        <EcosystemRankingTable />
+        <EcosystemRankingTable ranking={liveRanking} />
         <TopProtocolsPanel />
       </motion.section>
 
@@ -186,7 +307,13 @@ export function CapitalFlowDashboard() {
   );
 }
 
-function CapitalFlowChart({ isReady }: { isReady: boolean }) {
+function CapitalFlowChart({
+  isReady,
+  isLiveLoading,
+}: {
+  isReady: boolean;
+  isLiveLoading: boolean;
+}) {
   return (
     <section className="section-surface-grid">
       <div className="absolute inset-0 cyber-grid opacity-20" />
@@ -204,7 +331,7 @@ function CapitalFlowChart({ isReady }: { isReady: boolean }) {
         </div>
         <div className="hidden items-center gap-2 rounded-md border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs text-emerald-200 sm:flex">
           <span className="size-1.5 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,0.95)]" />
-          Live mock
+          {isLiveLoading ? "Syncing" : "DefiLlama live"}
         </div>
       </div>
 
@@ -270,7 +397,13 @@ function CapitalFlowChart({ isReady }: { isReady: boolean }) {
   );
 }
 
-function StablecoinDonut({ isReady }: { isReady: boolean }) {
+function StablecoinDonut({
+  isReady,
+  allocation,
+}: {
+  isReady: boolean;
+  allocation: ReadonlyArray<{ name: string; value: number; color: string }>;
+}) {
   return (
     <section className="section-surface">
       <div className="mb-6 flex items-start justify-between gap-4">
@@ -293,7 +426,7 @@ function StablecoinDonut({ isReady }: { isReady: boolean }) {
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart>
               <Pie
-                data={stablecoinAllocation}
+                data={allocation}
                 dataKey="value"
                 innerRadius={72}
                 outerRadius={104}
@@ -302,7 +435,7 @@ function StablecoinDonut({ isReady }: { isReady: boolean }) {
                 stroke="rgba(255,255,255,0.08)"
                 strokeWidth={1}
               >
-                {stablecoinAllocation.map((item) => (
+                {allocation.map((item) => (
                   <Cell key={item.name} fill={item.color} />
                 ))}
               </Pie>
@@ -315,7 +448,7 @@ function StablecoinDonut({ isReady }: { isReady: boolean }) {
       </div>
 
       <div className="mt-3 space-y-2">
-        {stablecoinAllocation.map((item) => (
+        {allocation.map((item) => (
           <div key={item.name} className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="size-2 rounded-full" style={{ backgroundColor: item.color }} />
@@ -329,7 +462,18 @@ function StablecoinDonut({ isReady }: { isReady: boolean }) {
   );
 }
 
-function EcosystemRankingTable() {
+function EcosystemRankingTable({
+  ranking,
+}: {
+  ranking: ReadonlyArray<{
+    chain: string;
+    netFlow: string;
+    inflow: string;
+    outflow: string;
+    dominance: number;
+    status: string;
+  }>;
+}) {
   return (
     <section className="section-surface">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -345,12 +489,12 @@ function EcosystemRankingTable() {
       </div>
 
       <div className="space-y-3">
-        {isEmpty(ecosystemRanking) ? (
+        {isEmpty(ranking) ? (
           <EmptyState
             title="No ecosystem flow data"
-            description="Ranking rows will appear when mock liquidity data is available."
+            description="Ranking rows will appear when liquidity data is available."
           />
-        ) : ecosystemRanking.map((item, index) => (
+        ) : ranking.map((item, index) => (
           <article
             key={item.chain}
             className="interactive-row group grid gap-4 lg:grid-cols-[42px_1fr_0.75fr_0.75fr_0.75fr_96px]"
@@ -362,9 +506,9 @@ function EcosystemRankingTable() {
               <p className="font-medium text-white">{item.chain}</p>
               <p className="mt-1 text-xs text-muted-foreground">{item.status}</p>
             </div>
-            <Metric label="Net flow" value={item.netFlow} />
-            <Metric label="Inflow" value={item.inflow} />
-            <Metric label="Outflow" value={item.outflow} muted />
+            <Metric label="7D Flow" value={item.netFlow} />
+            <Metric label="TVL" value={item.inflow} />
+            <Metric label="1D Change" value={item.outflow} muted />
             <div>
               <p className="text-xs text-muted-foreground">Dominance</p>
               <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">

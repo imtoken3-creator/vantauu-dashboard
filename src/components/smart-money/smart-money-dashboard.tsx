@@ -32,13 +32,18 @@ import { EmptyState } from "@/components/dashboard/empty-state";
 import {
   allocationDonut,
   netInflowSeries,
-  smartMoneyFeed,
   smartMoneyKpis,
   smartWalletClusters,
   walletLeaderboard,
 } from "@/data/smart-money";
+import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { isEmpty } from "@/lib/collection";
 import { chartGridStroke, chartTickStyle, chartTooltipStyle } from "@/lib/chart-style";
+import {
+  formatNumber,
+  shortAddress,
+  type LiveIntelligenceData,
+} from "@/lib/live-intelligence";
 import { cn } from "@/lib/utils";
 
 const kpiIcons = [CircleDollarSign, TrendingUp, WalletCards, BrainCircuit];
@@ -65,8 +70,98 @@ function ChartSkeleton() {
   );
 }
 
+function buildSmartMoneyKpis(data: LiveIntelligenceData, isLoading: boolean) {
+  if (isLoading) {
+    return smartMoneyKpis.map((kpi) => ({
+      ...kpi,
+      value: "Loading",
+      change: "Sync",
+      detail: "Fetching Etherscan wallet activity",
+    }));
+  }
+
+  const latestTransfer = data.wallet.tokenTransfers[0];
+  const latestTransaction = data.wallet.transactions[0];
+
+  return [
+    {
+      label: "Wallet Monitor",
+      value: data.wallet.enabled ? shortAddress(data.wallet.address) : "Add key",
+      change: data.wallet.enabled ? "Live" : "Optional",
+      detail: data.wallet.enabled
+        ? "Configured Etherscan wallet address"
+        : "Set ETHERSCAN_API_KEY to enable wallet intelligence",
+    },
+    {
+      label: "Recent Transactions",
+      value: data.wallet.enabled ? formatNumber(data.wallet.transactions.length) : "0",
+      change: "Etherscan",
+      detail: latestTransaction
+        ? `${latestTransaction.valueEth.toFixed(3)} ETH latest transfer`
+        : "Normal transaction history",
+    },
+    {
+      label: "Token Transfers",
+      value: data.wallet.enabled ? formatNumber(data.wallet.tokenTransfers.length) : "0",
+      change: "ERC-20",
+      detail: latestTransfer
+        ? `${latestTransfer.tokenSymbol} transfer stream`
+        : "Token transfer feed",
+    },
+    {
+      label: "Conviction Score",
+      value: data.wallet.enabled ? "Live" : "Fallback",
+      change: data.wallet.enabled ? "+Real" : "Mock-safe",
+      detail: "UI remains resilient if provider data is unavailable",
+    },
+  ];
+}
+
+function buildSmartMoneyFeed(data: LiveIntelligenceData, isLoading: boolean) {
+  if (isLoading) {
+    return [
+      {
+        title: "Loading Etherscan wallet feed",
+        meta: "Fetching normal transactions and token transfers",
+        time: "Syncing",
+        level: "Signal",
+      },
+    ];
+  }
+
+  const transferEvents = data.wallet.tokenTransfers.slice(0, 4).map((transfer) => ({
+    title: `${transfer.tokenSymbol} token transfer`,
+    meta: `${shortAddress(transfer.from)} -> ${shortAddress(transfer.to)} / ${formatNumber(transfer.value)} ${transfer.tokenSymbol}`,
+    time: "Recent",
+    level: "Signal",
+  }));
+
+  const transactionEvents = data.wallet.transactions.slice(0, 4).map((tx) => ({
+    title: "ETH transaction observed",
+    meta: `${shortAddress(tx.from)} -> ${shortAddress(tx.to)} / ${tx.valueEth.toFixed(3)} ETH`,
+    time: "Recent",
+    level: "Watch",
+  }));
+
+  const events = transferEvents.length > 0 ? transferEvents : transactionEvents;
+
+  return events.length > 0
+    ? events
+    : [
+        {
+          title: "Etherscan wallet feed not configured",
+          meta: "Add ETHERSCAN_API_KEY in .env.local to replace this fallback state",
+          time: "Setup",
+          level: "Watch",
+        },
+      ];
+}
+
 export function SmartMoneyDashboard() {
   const isChartReady = useChartReady();
+  const { data: liveData, isLoading: isLiveLoading } = useLiveIntelligence();
+  const liveKpis = buildSmartMoneyKpis(liveData, isLiveLoading);
+  const liveFeed = buildSmartMoneyFeed(liveData, isLiveLoading);
 
   return (
     <motion.div
@@ -81,6 +176,8 @@ export function SmartMoneyDashboard() {
         className="hero-surface"
       >
         <div className="absolute inset-0 cyber-grid animated-grid opacity-35" />
+        <div className="cinematic-gradient absolute inset-0 opacity-25" />
+        <div className="scan-line" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
         <div className="absolute -right-24 top-16 h-px w-[36rem] -rotate-12 bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent blur-md" />
 
@@ -101,9 +198,17 @@ export function SmartMoneyDashboard() {
 
           <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[420px]">
             {[
-              ["Tracked cohorts", "128"],
-              ["Signal freshness", "4m"],
-              ["AI precision", "94%"],
+              [
+                "Wallet address",
+                isLiveLoading ? "Loading" : shortAddress(liveData.wallet.address),
+              ],
+              ["Signal freshness", isLiveLoading ? "Syncing" : "60s"],
+              [
+                "Transfers",
+                isLiveLoading
+                  ? "Loading"
+                  : formatNumber(liveData.wallet.tokenTransfers.length),
+              ],
             ].map(([label, value]) => (
               <div
                 key={label}
@@ -124,7 +229,7 @@ export function SmartMoneyDashboard() {
         transition={{ duration: 0.55, ease: "easeOut" }}
         className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
       >
-        {smartMoneyKpis.map((kpi, index) => {
+        {liveKpis.map((kpi, index) => {
           const Icon = kpiIcons[index] ?? Activity;
           return (
             <article
@@ -173,7 +278,7 @@ export function SmartMoneyDashboard() {
         className="grid gap-6 xl:grid-cols-[1.25fr_0.95fr]"
       >
         <WalletLeaderboard />
-        <SmartMoneyFeed />
+        <SmartMoneyFeed events={liveFeed} />
       </motion.section>
 
       <motion.section
@@ -405,7 +510,11 @@ function WalletLeaderboard() {
   );
 }
 
-function SmartMoneyFeed() {
+function SmartMoneyFeed({
+  events,
+}: {
+  events: { title: string; meta: string; time: string; level: string }[];
+}) {
   return (
     <section className="section-surface">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -419,14 +528,14 @@ function SmartMoneyFeed() {
       </div>
 
       <div className="space-y-3">
-        {isEmpty(smartMoneyFeed) ? (
+        {isEmpty(events) ? (
           <EmptyState
             title="No wallet moves"
-            description="Live wallet movements will appear when mock feed data is available."
+            description="Live wallet movements will appear when Etherscan data is available."
           />
-        ) : smartMoneyFeed.map((event) => (
+        ) : events.map((event) => (
           <article
-            key={event.title}
+            key={`${event.title}-${event.time}-${event.meta}`}
             className="interactive-row-cyan group"
           >
             <div className="flex items-start justify-between gap-3">

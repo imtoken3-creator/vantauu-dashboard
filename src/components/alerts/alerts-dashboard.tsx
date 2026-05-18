@@ -79,6 +79,8 @@ export function AlertsDashboard() {
         className="hero-surface"
       >
         <div className="absolute inset-0 cyber-grid animated-grid opacity-35" />
+        <div className="cinematic-gradient absolute inset-0 opacity-25" />
+        <div className="scan-line" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
         <div className="absolute -right-24 top-16 h-px w-[36rem] -rotate-12 bg-gradient-to-r from-transparent via-rose-300/70 to-transparent blur-md" />
 

@@ -16,7 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Smart Money", href: "/smart-money", icon: BrainCircuit },
   { name: "Capital Flow", href: "/capital-flow", icon: CircleDollarSign },
   { name: "Narratives", href: "/narratives", icon: ChartNoAxesCombined },
@@ -31,7 +31,7 @@ export function Sidebar() {
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-sidebar-border bg-sidebar/84 p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl lg:flex lg:flex-col">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),transparent_18rem),linear-gradient(115deg,rgba(124,140,255,0.1),transparent_24rem)]" />
 
-      <Link href="/" className="relative mb-8 flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/[0.035]">
+      <Link href="/dashboard" className="relative mb-8 flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/[0.035]">
         <div className="flex size-10 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-primary shadow-lg shadow-primary/20">
           <RadioTower className="size-5" />
         </div>

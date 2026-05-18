@@ -79,7 +79,7 @@ export function StatCard({
         {sparkline.map((height, index) => (
           <span
             key={`${label}-${height}-${index}`}
-            className="flex-1 rounded-sm bg-gradient-to-t from-primary/20 to-cyan-200/70 opacity-70 transition duration-300 group-hover:opacity-100"
+            className="live-data-bar flex-1 rounded-sm bg-gradient-to-t from-primary/20 to-cyan-200/70 opacity-70 transition duration-300 group-hover:opacity-100"
             style={{ height: `${height}%` }}
           />
         ))}
