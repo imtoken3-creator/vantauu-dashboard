@@ -23,6 +23,7 @@ import {
 
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
+import { SignalMark } from "@/components/brand/signal-mark";
 import { LazyRender } from "@/components/ui/lazy-render";
 import {
   formatNumber,
@@ -451,7 +452,7 @@ function LandingNav({ onRequestAccess }: { onRequestAccess: () => void }) {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
-            <RadioTower className="size-4" />
+            <SignalMark className="size-5" />
           </span>
           <span>
             <span className="block text-sm font-semibold uppercase tracking-[0.24em] text-white">
@@ -985,7 +986,7 @@ function DashboardMockup({
           <aside className="hidden border-r border-white/10 bg-white/[0.035] p-4 lg:block">
             <div className="mb-8 flex items-center gap-3">
               <span className="flex size-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
-                <RadioTower className="size-4" />
+                <SignalMark className="size-5" />
               </span>
               <div>
                 <p className="text-sm font-semibold text-white">Vantauu</p>
@@ -1700,7 +1701,7 @@ function Footer() {
         <div className="max-w-sm">
           <Link href="/" className="inline-flex items-center gap-3">
             <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
-              <RadioTower className="size-4" />
+              <SignalMark className="size-5" />
             </span>
             <span className="font-semibold uppercase tracking-[0.24em] text-white">
               Vantauu

@@ -17,6 +17,7 @@ import {
   Waves,
 } from "lucide-react";
 
+import { SignalMark } from "@/components/brand/signal-mark";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
 
@@ -141,7 +142,7 @@ function AboutNav({ onRequestAccess }: { onRequestAccess: () => void }) {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
-            <RadioTower className="size-4" />
+            <SignalMark className="size-5" />
           </span>
           <span>
             <span className="block text-sm font-semibold uppercase tracking-[0.24em] text-white">
@@ -551,7 +552,7 @@ function AboutFooter() {
       <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-5 text-sm text-muted-foreground md:flex-row md:items-center">
         <Link href="/" className="inline-flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
-            <RadioTower className="size-4" />
+            <SignalMark className="size-5" />
           </span>
           <span className="font-semibold uppercase tracking-[0.24em] text-white">
             Vantauu

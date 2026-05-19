@@ -9,10 +9,10 @@ import {
   ChartNoAxesCombined,
   CircleDollarSign,
   LayoutDashboard,
-  RadioTower,
   Sparkles,
 } from "lucide-react";
 
+import { SignalMark } from "@/components/brand/signal-mark";
 import { cn } from "@/lib/utils";
 
 const navigation = [
@@ -33,7 +33,7 @@ export function Sidebar() {
 
       <Link href="/dashboard" className="relative mb-8 flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/[0.035]">
         <div className="flex size-10 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-primary shadow-lg shadow-primary/20">
-          <RadioTower className="size-5" />
+          <SignalMark className="size-6" />
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white">
