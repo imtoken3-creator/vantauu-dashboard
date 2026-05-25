@@ -24,6 +24,7 @@ import {
 import { useLiveIntelligence } from "@/hooks/use-live-intelligence";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
 import { SignalMark } from "@/components/brand/signal-mark";
+import { MarketingMobileMenu } from "@/components/layout/marketing-mobile-menu";
 import { LazyRender } from "@/components/ui/lazy-render";
 import {
   formatNumber,
@@ -485,14 +486,28 @@ function LandingNav({ onRequestAccess }: { onRequestAccess: () => void }) {
           </a>
         </nav>
 
-        <button
-          type="button"
-          onClick={onRequestAccess}
-          className="group inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.055] px-3 text-sm font-medium text-white shadow-xl shadow-black/20 backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-primary/10"
-        >
-          Request Access
-          <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onRequestAccess}
+            className="group hidden h-11 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.055] px-4 text-sm font-medium text-white shadow-xl shadow-black/20 backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-primary/10 md:inline-flex"
+          >
+            Request Access
+            <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
+          </button>
+          <MarketingMobileMenu
+            links={[
+              { label: "About", href: "/about" },
+              { label: "Leadership", href: "/founding-leadership" },
+              { label: "Features", href: "#features" },
+              { label: "Preview", href: "#preview" },
+              { label: "Pricing", href: "#pricing" },
+              { label: "FAQ", href: "#faq" },
+              { label: "Dashboard", href: "/dashboard" },
+            ]}
+            cta={{ label: "Request Access", onClick: onRequestAccess }}
+          />
+        </div>
       </div>
     </header>
   );

@@ -90,11 +90,15 @@
 
   html {
     @apply scroll-smooth font-sans;
+    max-width: 100%;
+    overflow-x: hidden;
     text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
+    max-width: 100%;
+    overflow-x: hidden;
     background:
       linear-gradient(115deg, color-mix(in oklch, var(--primary) 7%, transparent), transparent 34rem),
       linear-gradient(180deg, rgba(255,255,255,0.026), transparent 22rem),
@@ -383,6 +387,43 @@
 }
 
 @media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+    scroll-margin-block: 6rem;
+  }
+
+  .animated-grid,
+  .scan-line {
+    animation: none !important;
+  }
+
+  .cyber-grid {
+    background-size: 96px 96px, 96px 96px, 320px 320px;
+    opacity: 0.16 !important;
+  }
+
+  .cinematic-gradient {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.055), transparent 44%),
+      linear-gradient(235deg, rgba(124, 140, 255, 0.06), transparent 48%);
+  }
+
+  .backdrop-blur-xl,
+  .backdrop-blur-lg,
+  .backdrop-blur-md,
+  .backdrop-blur-sm {
+    --tw-backdrop-blur: blur(2px) !important;
+  }
+
+  .blur-3xl,
+  .blur-2xl,
+  .blur-xl,
+  .blur-lg,
+  .blur-md {
+    --tw-blur: blur(6px) !important;
+  }
+
   .hero-surface,
   .section-surface,
   .section-surface-grid,
@@ -390,6 +431,34 @@
     box-shadow:
       0 12px 34px rgba(0, 0, 0, 0.24),
       inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  }
+
+  .section-surface:hover,
+  .section-surface-grid:hover,
+  .metric-card:hover,
+  .surface-card:hover,
+  .interactive-row:hover,
+  .interactive-row-cyan:hover {
+    transform: none !important;
+  }
+
+  .glow-border::before,
+  .section-surface::before,
+  .section-surface-grid::before,
+  .metric-card::before,
+  .surface-card::before {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.052),
+      0 0 0 1px rgba(124, 140, 255, 0.04);
+  }
+
+  .section-surface::after,
+  .section-surface-grid::after,
+  .metric-card::after,
+  .surface-card::after,
+  .interactive-row::after,
+  .interactive-row-cyan::after {
+    display: none;
   }
 
   .chart-frame {

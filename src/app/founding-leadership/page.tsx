@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { SignalMark } from "@/components/brand/signal-mark";
+import { MarketingMobileMenu } from "@/components/layout/marketing-mobile-menu";
 
 const contactHref =
   "mailto:talent@vantauu.com?subject=Recruiting%20Inquiry%20-%20Founding%20Leadership";
@@ -217,12 +218,24 @@ export default function FoundingLeadershipPage() {
             </Link>
           </nav>
 
-          <a
-            href={contactHref}
-            className="inline-flex h-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.055] px-4 text-sm font-medium text-white transition duration-200 hover:border-primary/35 hover:bg-primary/10"
-          >
-            Contact
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href={contactHref}
+              className="hidden h-11 items-center justify-center rounded-lg border border-white/10 bg-white/[0.055] px-4 text-sm font-medium text-white transition duration-200 hover:border-primary/35 hover:bg-primary/10 md:inline-flex"
+            >
+              Contact
+            </a>
+            <MarketingMobileMenu
+              links={[
+                { label: "About", href: "/about" },
+                { label: "Product", href: "/dashboard" },
+                { label: "Docs", href: "/docs" },
+                { label: "Roles", href: "#roles" },
+                { label: "Home", href: "/" },
+              ]}
+              cta={{ label: "Contact Recruiting", href: contactHref }}
+            />
+          </div>
         </div>
       </header>
 
