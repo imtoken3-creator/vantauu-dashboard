@@ -21,6 +21,7 @@ import { SignalMark } from "@/components/brand/signal-mark";
 import { MarketingMobileMenu } from "@/components/layout/marketing-mobile-menu";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 import { foundingLeadershipRoles } from "@/data/founding-roles";
+import { footerContactChannels, mailto } from "@/lib/contact-channels";
 
 const fadeUp = {
   hidden: { opacity: 1, y: 0 },
@@ -120,7 +121,7 @@ export function AboutPage() {
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
       <AboutNav onRequestAccess={() => setWaitlistOpen(true)} />
       <main id="main-content">
-        <HeroSection onRequestAccess={() => setWaitlistOpen(true)} />
+        <HeroSection />
         <BeliefSection />
         <FounderLetter />
         <PrinciplesSection />
@@ -174,14 +175,13 @@ function AboutNav({ onRequestAccess }: { onRequestAccess: () => void }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onRequestAccess}
+          <a
+            href={mailto.recruiting("Recruiting Inquiry - About")}
             className="group hidden h-11 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.055] px-4 text-sm font-medium text-white shadow-xl shadow-black/20 backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-primary/10 md:inline-flex"
           >
             Join us
             <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-          </button>
+          </a>
           <MarketingMobileMenu
             links={[
               { label: "Product", href: "/dashboard" },
@@ -199,7 +199,7 @@ function AboutNav({ onRequestAccess }: { onRequestAccess: () => void }) {
   );
 }
 
-function HeroSection({ onRequestAccess }: { onRequestAccess: () => void }) {
+function HeroSection() {
   return (
     <section className="relative overflow-hidden px-4 pb-20 pt-28 sm:px-6 sm:pb-24 sm:pt-32 lg:px-8">
       <div className="absolute inset-0 cyber-grid animated-grid opacity-35" />
@@ -240,15 +240,14 @@ function HeroSection({ onRequestAccess }: { onRequestAccess: () => void }) {
             variants={fadeUp}
             className="mt-8 flex flex-col gap-3 sm:flex-row"
           >
-            <button
-              type="button"
-              onClick={onRequestAccess}
+            <a
+              href={mailto.recruiting("Recruiting Inquiry - About")}
               className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-[linear-gradient(135deg,rgba(124,140,255,0.95),rgba(56,189,248,0.84))] px-5 text-sm font-medium text-white shadow-xl shadow-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-primary/30"
             >
               <BriefcaseBusiness className="size-4" />
               Join the mission
               <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-            </button>
+            </a>
             <Link
               href="/dashboard"
               className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.055] px-5 text-sm font-medium text-white shadow-xl shadow-black/20 backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/35 hover:bg-white/[0.085]"
@@ -492,13 +491,13 @@ function RecruitingCta() {
                   </span>
                 ))}
               </div>
-              <Link
-                href="/founding-leadership"
+              <a
+                href={mailto.recruiting("Recruiting Inquiry - Founding Leadership")}
                 className="group mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-primary/90 px-5 text-sm font-medium text-white shadow-xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:bg-primary"
               >
                 Start a conversation
                 <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-              </Link>
+              </a>
             </div>
 
             <div className="mt-10 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
@@ -566,7 +565,7 @@ function AboutFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 px-4 py-10 sm:px-6 lg:px-8">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-      <div className="relative mx-auto flex max-w-7xl flex-col justify-between gap-5 text-sm text-muted-foreground md:flex-row md:items-center">
+      <div className="relative mx-auto grid max-w-7xl gap-7 text-sm text-muted-foreground md:grid-cols-[1fr_auto] md:items-start">
         <Link href="/" className="inline-flex items-center gap-3">
           <span className="flex size-9 items-center justify-center rounded-lg border border-primary/35 bg-primary/15 text-primary shadow-lg shadow-primary/20">
             <SignalMark className="size-5" />
@@ -575,22 +574,41 @@ function AboutFooter() {
             Vantauu
           </span>
         </Link>
-        <div className="flex flex-wrap gap-5">
-          <Link className="transition hover:text-white" href="/dashboard">
-            Product
-          </Link>
-          <Link className="transition hover:text-white" href="/docs">
-            Docs
-          </Link>
-          <Link className="transition hover:text-white" href="/founding-leadership">
-            Leadership
-          </Link>
-          <Link className="transition hover:text-white" href="/">
-            Home
-          </Link>
-          <a className="transition hover:text-white" href="mailto:hello@vantauu.ai">
-            Contact
-          </a>
+        <div className="grid gap-5 md:justify-items-end">
+          <div className="flex flex-wrap gap-5 md:justify-end">
+            <Link className="transition hover:text-white" href="/dashboard">
+              Product
+            </Link>
+            <Link className="transition hover:text-white" href="/docs">
+              Docs
+            </Link>
+            <Link className="transition hover:text-white" href="/founding-leadership">
+              Leadership
+            </Link>
+            <Link className="transition hover:text-white" href="/">
+              Home
+            </Link>
+            <a className="transition hover:text-white" href={mailto.general("General Inquiry")}>
+              Contact
+            </a>
+          </div>
+
+          <div className="grid gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 sm:grid-cols-3">
+            {footerContactChannels.map((channel) => (
+              <a
+                key={channel.email}
+                href={channel.href}
+                className="group min-w-0 rounded-md border border-white/10 bg-black/15 px-3 py-2 transition duration-200 hover:border-primary/30 hover:bg-primary/10"
+              >
+                <span className="block text-xs font-medium uppercase tracking-[0.16em] text-slate-400 group-hover:text-primary">
+                  {channel.label}
+                </span>
+                <span className="mt-1 block truncate font-mono text-xs text-slate-200">
+                  {channel.email}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

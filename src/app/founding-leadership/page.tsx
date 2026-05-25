@@ -14,9 +14,11 @@ import {
 
 import { SignalMark } from "@/components/brand/signal-mark";
 import { MarketingMobileMenu } from "@/components/layout/marketing-mobile-menu";
+import { footerContactChannels, mailto } from "@/lib/contact-channels";
 
-const contactHref =
-  "mailto:talent@vantauu.com?subject=Recruiting%20Inquiry%20-%20Founding%20Leadership";
+const contactHref = mailto.recruiting(
+  "Recruiting Inquiry - Founding Leadership"
+);
 
 const roles = [
   {
@@ -151,9 +153,7 @@ const executiveSignals = [
 ];
 
 function applyHref(role: string) {
-  return `mailto:talent@vantauu.com?subject=${encodeURIComponent(
-    `Application - ${role}`
-  )}`;
+  return mailto.recruiting(`Application - ${role}`);
 }
 
 export const metadata: Metadata = {
@@ -223,7 +223,7 @@ export default function FoundingLeadershipPage() {
               href={contactHref}
               className="hidden h-11 items-center justify-center rounded-lg border border-white/10 bg-white/[0.055] px-4 text-sm font-medium text-white transition duration-200 hover:border-primary/35 hover:bg-primary/10 md:inline-flex"
             >
-              Contact
+              Contact Recruiting
             </a>
             <MarketingMobileMenu
               links={[
@@ -493,23 +493,51 @@ export default function FoundingLeadershipPage() {
       </main>
 
       <footer className="border-t border-white/10 px-4 py-8 text-sm text-muted-foreground sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto grid max-w-7xl gap-7 md:grid-cols-[1fr_auto] md:items-start">
           <Link href="/" className="inline-flex items-center gap-3">
             <SignalMark className="size-5 text-primary" />
             <span className="font-semibold uppercase tracking-[0.24em] text-white">
               Vantauu
             </span>
           </Link>
-          <div className="flex flex-wrap gap-5">
-            <Link className="transition hover:text-white" href="/about">
-              About
-            </Link>
-            <Link className="transition hover:text-white" href="/docs">
-              Docs
-            </Link>
-            <a className="transition hover:text-white" href={contactHref}>
-              Contact
-            </a>
+          <div className="grid gap-5 md:justify-items-end">
+            <div className="flex flex-wrap gap-5 md:justify-end">
+              <Link className="transition hover:text-white" href="/about">
+                About
+              </Link>
+              <Link className="transition hover:text-white" href="/docs">
+                Docs
+              </Link>
+              <a
+                className="transition hover:text-white"
+                href={mailto.general("General Inquiry")}
+              >
+                Contact
+              </a>
+              <a
+                className="transition hover:text-white"
+                href={mailto.partnerships("Partnership Inquiry")}
+              >
+                Partnerships
+              </a>
+            </div>
+
+            <div className="grid gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 sm:grid-cols-3">
+              {footerContactChannels.map((channel) => (
+                <a
+                  key={channel.email}
+                  href={channel.href}
+                  className="group min-w-0 rounded-md border border-white/10 bg-black/15 px-3 py-2 transition duration-200 hover:border-primary/30 hover:bg-primary/10"
+                >
+                  <span className="block text-xs font-medium uppercase tracking-[0.16em] text-slate-400 group-hover:text-primary">
+                    {channel.label}
+                  </span>
+                  <span className="mt-1 block truncate font-mono text-xs text-slate-200">
+                    {channel.email}
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </footer>

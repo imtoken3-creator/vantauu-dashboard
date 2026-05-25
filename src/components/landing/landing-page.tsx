@@ -33,6 +33,7 @@ import {
   shortAddress,
   type LiveIntelligenceData,
 } from "@/lib/live-intelligence";
+import { footerContactChannels, mailto } from "@/lib/contact-channels";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
 const fadeUp = {
@@ -210,7 +211,8 @@ const footerLinks = [
   { label: "Docs", href: "/docs" },
   { label: "About", href: "/about" },
   { label: "Leadership", href: "/founding-leadership" },
-  { label: "Contact", href: "mailto:hello@vantauu.ai" },
+  { label: "Contact", href: mailto.general("General Inquiry") },
+  { label: "Partnerships", href: mailto.partnerships("Partnership Inquiry") },
   { label: "Privacy", href: "#privacy" },
   { label: "Terms", href: "#terms" },
 ];
@@ -1732,7 +1734,7 @@ function Footer() {
           </p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[0.8fr_0.9fr_1.25fr]">
           <div>
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-white">
               Company
@@ -1755,11 +1757,23 @@ function Footer() {
           </div>
           <div className="rounded-lg border border-white/10 bg-white/[0.045] p-4">
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
-              Signal status
+              Contact channels
             </p>
-            <div className="mt-4 flex items-center gap-2 text-sm text-white">
-              <span className="size-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,0.9)]" />
-              All systems operational
+            <div className="mt-4 grid gap-3">
+              {footerContactChannels.map((channel) => (
+                <a
+                  key={channel.email}
+                  href={channel.href}
+                  className="group flex items-center justify-between gap-4 rounded-md border border-white/10 bg-black/15 px-3 py-2 transition duration-200 hover:border-primary/30 hover:bg-primary/10"
+                >
+                  <span className="text-xs font-medium uppercase tracking-[0.16em] text-slate-400 group-hover:text-primary">
+                    {channel.label}
+                  </span>
+                  <span className="font-mono text-xs text-slate-200">
+                    {channel.email}
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
         </div>
