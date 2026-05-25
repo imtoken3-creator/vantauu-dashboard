@@ -5,6 +5,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vantauu.ai";
 const routes = [
   "",
   "/about",
+  "/founding-leadership",
   "/dashboard",
   "/smart-money",
   "/capital-flow",

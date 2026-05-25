@@ -208,7 +208,7 @@ const footerLinks = [
   { label: "Product", href: "/dashboard" },
   { label: "Docs", href: "/docs" },
   { label: "About", href: "/about" },
-  { label: "Careers", href: "#careers" },
+  { label: "Leadership", href: "/founding-leadership" },
   { label: "Contact", href: "mailto:hello@vantauu.ai" },
   { label: "Privacy", href: "#privacy" },
   { label: "Terms", href: "#terms" },
@@ -281,7 +281,7 @@ export function LandingPage() {
           <FaqSection />
         </LazyRender>
         <LazyRender id="careers" minHeight={780}>
-          <CareersSection onRequestAccess={() => openWaitlist("careers")} />
+          <CareersSection />
         </LazyRender>
       </main>
       <Footer />
@@ -467,6 +467,9 @@ function LandingNav({ onRequestAccess }: { onRequestAccess: () => void }) {
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
           <Link className="transition hover:text-white" href="/about">
             About
+          </Link>
+          <Link className="transition hover:text-white" href="/founding-leadership">
+            Leadership
           </Link>
           <a className="transition hover:text-white" href="#features">
             Features
@@ -1581,7 +1584,7 @@ function FaqSection() {
   );
 }
 
-function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
+function CareersSection() {
   return (
     <MotionSection>
       <div className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
@@ -1627,61 +1630,62 @@ function CareersSection({ onRequestAccess }: { onRequestAccess: () => void }) {
 
             <div className="mt-10 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
               {foundingLeadershipRoles.map((role, index) => (
-                <motion.button
+                <motion.div
                   key={role.title}
-                  type="button"
-                  onClick={onRequestAccess}
                   variants={fadeUp}
-                  className={`section-surface-grid group min-h-[430px] text-left ${
-                    index === 0 ? "xl:col-span-2" : ""
-                  }`}
+                  className={index === 0 ? "xl:col-span-2" : ""}
                 >
-                  <div className="absolute inset-0 cyber-grid opacity-10" />
-                  <div className="relative flex h-full flex-col">
-                    <div className="mb-6 flex items-start justify-between gap-4">
-                      <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
-                      <BriefcaseBusiness className="size-4" />
-                      </span>
-                      <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-xs text-muted-foreground">
-                        0{index + 1}
-                      </span>
-                    </div>
+                  <Link
+                    href="/founding-leadership"
+                    className="section-surface-grid group flex min-h-[430px] flex-col text-left"
+                  >
+                    <div className="absolute inset-0 cyber-grid opacity-10" />
+                    <div className="relative flex h-full flex-col">
+                      <div className="mb-6 flex items-start justify-between gap-4">
+                        <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
+                          <BriefcaseBusiness className="size-4" />
+                        </span>
+                        <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-xs text-muted-foreground">
+                          0{index + 1}
+                        </span>
+                      </div>
 
-                    <div>
-                      <h3 className="text-xl font-semibold tracking-tight text-white">
-                        {role.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-300">
-                        {role.mandate}
-                      </p>
-                    </div>
+                      <div>
+                        <h3 className="text-xl font-semibold tracking-tight text-white">
+                          {role.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-6 text-slate-300">
+                          {role.mandate}
+                        </p>
+                      </div>
 
-                    <div className="mt-6 grid gap-4 text-xs leading-5 text-muted-foreground">
-                      {[
-                        ["Mission", role.mission],
-                        ["Ownership", role.ownership],
-                        ["Why now", role.whyNow],
-                        ["Who we want", role.whoWeWant],
-                      ].map(([label, value]) => (
-                        <div key={label} className="border-t border-white/10 pt-3">
-                          <p className="mb-1 font-medium uppercase tracking-[0.16em] text-primary">
-                            {label}
-                          </p>
-                          <p>{value}</p>
-                        </div>
-                      ))}
-                    </div>
+                      <div className="mt-6 grid gap-4 text-xs leading-5 text-muted-foreground">
+                        {[
+                          ["Mission", role.mission],
+                          ["Ownership", role.ownership],
+                          ["Why now", role.whyNow],
+                          ["Who we want", role.whoWeWant],
+                        ].map(([label, value]) => (
+                          <div key={label} className="border-t border-white/10 pt-3">
+                            <p className="mb-1 font-medium uppercase tracking-[0.16em] text-primary">
+                              {label}
+                            </p>
+                            <p>{value}</p>
+                          </div>
+                        ))}
+                      </div>
 
-                    <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-sm font-medium text-white">
-                      <span>Start a conversation</span>
-                      <ArrowRight className="size-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
+                      <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-sm font-medium text-white">
+                        <span>Explore leadership brief</span>
+                        <ArrowRight className="size-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
+                      </div>
+                      <span
+                        className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition group-hover:opacity-100"
+                        style={{ transitionDelay: `${index * 35}ms` }}
+                      />
                     </div>
-                    <span
-                      className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition group-hover:opacity-100"
-                      style={{ transitionDelay: `${index * 35}ms` }}
-                    />
-                  </div>
-                </motion.button>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>

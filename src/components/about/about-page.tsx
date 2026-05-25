@@ -124,7 +124,7 @@ export function AboutPage() {
         <FounderLetter />
         <PrinciplesSection />
         <RoadmapSection />
-        <RecruitingCta onRequestAccess={() => setWaitlistOpen(true)} />
+        <RecruitingCta />
       </main>
       <AboutFooter />
       <WaitlistModal
@@ -157,6 +157,9 @@ function AboutNav({ onRequestAccess }: { onRequestAccess: () => void }) {
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
           <Link className="transition hover:text-white" href="/dashboard">
             Product
+          </Link>
+          <Link className="transition hover:text-white" href="/founding-leadership">
+            Leadership
           </Link>
           <Link className="transition hover:text-white" href="/docs">
             Docs
@@ -439,7 +442,7 @@ function RoadmapSection() {
   );
 }
 
-function RecruitingCta({ onRequestAccess }: { onRequestAccess: () => void }) {
+function RecruitingCta() {
   return (
     <MotionSection>
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
@@ -475,67 +478,67 @@ function RecruitingCta({ onRequestAccess }: { onRequestAccess: () => void }) {
                   </span>
                 ))}
               </div>
-              <button
-                type="button"
-                onClick={onRequestAccess}
+              <Link
+                href="/founding-leadership"
                 className="group mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 bg-primary/90 px-5 text-sm font-medium text-white shadow-xl shadow-primary/25 transition duration-300 hover:-translate-y-0.5 hover:bg-primary"
               >
                 Start a conversation
                 <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-              </button>
+              </Link>
             </div>
 
             <div className="mt-10 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
               {foundingLeadershipRoles.map((role, index) => (
-                <motion.button
+                <motion.div
                   key={role.title}
-                  type="button"
-                  onClick={onRequestAccess}
                   variants={fadeUp}
-                  className={`section-surface-grid group flex min-h-[390px] flex-col text-left ${
-                    index === 0 ? "xl:col-span-2" : ""
-                  }`}
+                  className={index === 0 ? "xl:col-span-2" : ""}
                 >
-                  <div className="absolute inset-0 cyber-grid opacity-10" />
-                  <div className="relative flex h-full flex-col">
-                    <div className="mb-6 flex items-start justify-between gap-4">
-                      <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
-                        <BriefcaseBusiness className="size-4" />
-                      </span>
-                      <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-xs text-muted-foreground">
-                        0{index + 1}
-                      </span>
-                    </div>
+                  <Link
+                    href="/founding-leadership"
+                    className="section-surface-grid group flex min-h-[390px] flex-col text-left"
+                  >
+                    <div className="absolute inset-0 cyber-grid opacity-10" />
+                    <div className="relative flex h-full flex-col">
+                      <div className="mb-6 flex items-start justify-between gap-4">
+                        <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
+                          <BriefcaseBusiness className="size-4" />
+                        </span>
+                        <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-xs text-muted-foreground">
+                          0{index + 1}
+                        </span>
+                      </div>
 
-                    <h3 className="text-xl font-semibold tracking-tight text-white">
-                      {role.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-300">
-                      {role.mandate}
-                    </p>
+                      <h3 className="text-xl font-semibold tracking-tight text-white">
+                        {role.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-300">
+                        {role.mandate}
+                      </p>
 
-                    <div className="mt-6 grid gap-4 text-xs leading-5 text-muted-foreground">
-                      {[
-                        ["Mission", role.mission],
-                        ["Ownership", role.ownership],
-                        ["Why now", role.whyNow],
-                        ["Who we want", role.whoWeWant],
-                      ].map(([label, value]) => (
-                        <div key={label} className="border-t border-white/10 pt-3">
-                          <p className="mb-1 font-medium uppercase tracking-[0.16em] text-primary">
-                            {label}
-                          </p>
-                          <p>{value}</p>
-                        </div>
-                      ))}
-                    </div>
+                      <div className="mt-6 grid gap-4 text-xs leading-5 text-muted-foreground">
+                        {[
+                          ["Mission", role.mission],
+                          ["Ownership", role.ownership],
+                          ["Why now", role.whyNow],
+                          ["Who we want", role.whoWeWant],
+                        ].map(([label, value]) => (
+                          <div key={label} className="border-t border-white/10 pt-3">
+                            <p className="mb-1 font-medium uppercase tracking-[0.16em] text-primary">
+                              {label}
+                            </p>
+                            <p>{value}</p>
+                          </div>
+                        ))}
+                      </div>
 
-                    <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-sm font-medium text-white">
-                      <span>Founding mandate</span>
-                      <ArrowRight className="size-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
+                      <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-5 text-sm font-medium text-white">
+                        <span>Explore leadership brief</span>
+                        <ArrowRight className="size-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
+                      </div>
                     </div>
-                  </div>
-                </motion.button>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -564,6 +567,9 @@ function AboutFooter() {
           </Link>
           <Link className="transition hover:text-white" href="/docs">
             Docs
+          </Link>
+          <Link className="transition hover:text-white" href="/founding-leadership">
+            Leadership
           </Link>
           <Link className="transition hover:text-white" href="/">
             Home
