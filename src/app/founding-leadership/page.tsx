@@ -15,7 +15,7 @@ import {
 import { SignalMark } from "@/components/brand/signal-mark";
 
 const contactHref =
-  "mailto:hello@vantauu.ai?subject=Vantauu%20Founding%20Leadership";
+  "mailto:talent@vantauu.com?subject=Recruiting%20Inquiry%20-%20Founding%20Leadership";
 
 const roles = [
   {
@@ -150,8 +150,8 @@ const executiveSignals = [
 ];
 
 function applyHref(role: string) {
-  return `mailto:hello@vantauu.ai?subject=${encodeURIComponent(
-    `Founding Leadership: ${role}`
+  return `mailto:talent@vantauu.com?subject=${encodeURIComponent(
+    `Application - ${role}`
   )}`;
 }
 
