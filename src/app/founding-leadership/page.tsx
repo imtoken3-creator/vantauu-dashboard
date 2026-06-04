@@ -337,26 +337,24 @@ export default function FoundingLeadershipPage() {
           </div>
         </section>
 
-        <section id="roles" className="px-4 py-16 sm:px-6 lg:px-8">
+        <section id="roles" className="px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-10 max-w-3xl">
+            <div className="mb-14 max-w-3xl">
               <p className="section-eyebrow">Open Founding Leadership Positions</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
                 Senior mandates for an early intelligence company.
               </h2>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-x-6 gap-y-8 lg:grid-cols-2 lg:gap-y-10">
               {roles.map((role, index) => (
                 <article
                   key={role.title}
-                  className={`section-surface-grid group flex min-h-[420px] flex-col ${
-                    index === 0 ? "xl:col-span-2" : ""
-                  }`}
+                  className="section-surface-grid group flex min-h-[420px] flex-col lg:h-[440px]"
                 >
                   <div className="absolute inset-0 cyber-grid opacity-10" />
                   <div className="relative flex h-full flex-col">
-                    <div className="mb-7 flex items-start justify-between gap-4">
+                    <div className="mb-8 flex items-start justify-between gap-4">
                       <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
                         <BriefcaseBusiness className="size-4" />
                       </span>
@@ -369,7 +367,7 @@ export default function FoundingLeadershipPage() {
                       {role.title}
                     </h3>
 
-                    <div className="mt-6 grid gap-4 text-sm leading-6 text-slate-300">
+                    <div className="mt-7 grid gap-5 text-sm leading-6 text-slate-300">
                       {[
                         ["Mission", role.mission],
                         ["Ownership", role.ownership],

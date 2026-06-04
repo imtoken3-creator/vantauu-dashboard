@@ -1645,20 +1645,22 @@ function CareersSection() {
               </div>
             </div>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-12 grid gap-x-6 gap-y-8 lg:grid-cols-2 xl:grid-cols-6 xl:gap-y-10">
               {foundingLeadershipRoles.map((role, index) => (
                 <motion.div
                   key={role.title}
                   variants={fadeUp}
-                  className={index === 0 ? "xl:col-span-2" : ""}
+                  className={`h-full xl:col-span-2 ${
+                    index === 3 ? "xl:col-start-2" : ""
+                  }`}
                 >
                   <Link
                     href="/founding-leadership"
-                    className="section-surface-grid group flex min-h-[430px] flex-col text-left"
+                    className="section-surface-grid group flex min-h-[520px] flex-col text-left lg:h-[560px] xl:h-[620px]"
                   >
                     <div className="absolute inset-0 cyber-grid opacity-10" />
                     <div className="relative flex h-full flex-col">
-                      <div className="mb-6 flex items-start justify-between gap-4">
+                      <div className="mb-8 flex items-start justify-between gap-4">
                         <span className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary shadow-lg shadow-primary/10">
                           <BriefcaseBusiness className="size-4" />
                         </span>
@@ -1676,7 +1678,7 @@ function CareersSection() {
                         </p>
                       </div>
 
-                      <div className="mt-6 grid gap-4 text-xs leading-5 text-muted-foreground">
+                      <div className="mt-8 grid gap-5 text-xs leading-5 text-muted-foreground">
                         {[
                           ["Mission", role.mission],
                           ["Ownership", role.ownership],
